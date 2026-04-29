@@ -1,288 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Heat Stress Calendar · Pathway Bangladesh</title>
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Heat Stress Calendar · Pathway Bangladesh" />
-  <meta property="og:description" content="Bangladesh Livestock Heat Stress Calendar — monthly THI risk guide for poultry and dairy farms. Pathway Intermediates Bangladesh." />
-  <meta property="og:site_name" content="Pathway Intermediates" />
-  <meta property="og:image" content="og-image.jpg" />
-  <meta name="description" content="Bangladesh Livestock Heat Stress Calendar — monthly THI risk guide for poultry and dairy farms. Pathway Intermediates Bangladesh." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --color-text-primary: #111111;
-      --color-text-secondary: #3a3a3a;
-      --color-text-tertiary: #6f6f6f;
-      --color-background-primary: #ffffff;
-      --color-background-secondary: #f4f4f4;
-      --color-border-secondary: #b8b8b8;
-      --color-border-tertiary: #e2e2e2;
-      --brand-blue: #185FA5;
-      --brand-blue-deep: #0f3f73;
-      --border-radius-md: 10px;
-      --border-radius-lg: 12px;
-    }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1.5rem 0 2rem; font-family: var(--font-sans); }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 0.75rem; }
+.region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
+.rtab { padding: 12px 16px; font-size: 13px; font-weight: 500; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; color: var(--color-text-secondary); background: var(--color-background-primary); transition: all 0.15s; text-align: left; line-height: 1.4; }
+.rtab:hover { border-color: var(--color-border-secondary); }
+.rtab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+.rtab-name { display: block; font-weight: 500; }
+.rtab-cities { display: block; font-size: 10px; font-weight: 400; opacity: 0.5; margin-top: 3px; }
+.rtab.active .rtab-cities { opacity: 0.45; }
+#calLabel { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; margin-bottom: 16px; }
+.mc { border-radius: 8px; padding: 9px 4px 8px; text-align: center; border: 0.5px solid transparent; position: relative; }
+.mc-name { font-size: 10px; font-weight: 500; margin-bottom: 3px; }
+.mc-thi { font-size: 18px; font-weight: 500; line-height: 1; margin-bottom: 2px; }
+.mc-zone { font-size: 8px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.strex-pin { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: #185FA5; color: #E6F1FB; font-size: 7.5px; font-weight: 500; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1.25rem; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.season-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+.season-card { border-radius: var(--border-radius-md); padding: 12px 14px; border: 0.5px solid transparent; }
+.season-name { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+.season-months { font-size: 12px; margin-bottom: 5px; }
+.season-thi { font-size: 14px; font-weight: 500; }
+.season-zone { font-size: 11px; margin-top: 2px; }
+.cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+.icard { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+.icard-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.irow { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; }
+.irow:last-child { border-bottom: none; }
+.irow-l { color: var(--color-text-secondary); }
+.irow-r { font-weight: 500; color: var(--color-text-primary); }
+.banner { border: 0.5px solid #378ADD55; background: #E6F1FB33; border-radius: var(--border-radius-md); padding: 14px 16px; }
+.banner-title { font-size: 12px; font-weight: 500; color: #185FA5; margin-bottom: 5px; }
+.banner-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.65; }
+.source-note { font-size: 10px; color: var(--color-text-tertiary); margin-top: 12px; }
 
-    body {
-      font-family: var(--font-sans);
-      background: #fafafa;
-      color: var(--color-text-primary);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
+.rtab {
+  text-align: center;
+}
+.season-card {
+  text-align: center;
+}
 
-    .site-header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--color-border-tertiary);
-      padding: 0 1.75rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-    .site-header .logo {
-      font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
-      color: var(--color-text-primary); text-decoration: none; white-space: nowrap;
-    }
-    .site-header .logo span { color: var(--brand-blue); }
-    .site-header .logo em {
-      font-style: normal; font-weight: 400; color: var(--color-text-tertiary);
-      margin-left: 4px; font-size: 13px; letter-spacing: 0;
-    }
-    .site-nav { display: flex; align-items: center; gap: 22px; }
-    .site-nav a {
-      font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
-      text-decoration: none; padding: 18px 0; border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s; white-space: nowrap;
-    }
-    .site-nav a:hover { color: var(--color-text-primary); }
-    .site-nav a.active { color: var(--color-text-primary); border-bottom-color: var(--brand-blue); }
-    @media (max-width: 600px) {
-      .site-header { padding: 0 1rem; gap: 8px; }
-      .site-header .logo em { display: none; }
-      .site-nav { gap: 14px; }
-      .site-nav a { font-size: 11.5px; padding: 18px 0; }
-    }
 
-    main { max-width: 760px; margin: 0 auto; padding: 0 1.75rem; }
+</style>
 
-    /* page header */
-    .page-header { padding: 3rem 0 2.25rem; }
-    .page-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
-      color: var(--brand-blue); text-transform: uppercase; margin-bottom: 1rem;
-    }
-    .page-title {
-      font-family: var(--font-serif); font-weight: 900; font-size: 40px;
-      line-height: 1.1; letter-spacing: -0.02em; color: var(--color-text-primary); margin-bottom: 1.1rem;
-    }
-    .page-title em { font-style: italic; color: var(--brand-blue); }
-    .page-sub {
-      font-size: 16px; line-height: 1.75; color: var(--color-text-secondary); max-width: 600px;
-    }
-    @media (max-width: 600px) {
-      .page-header { padding: 2rem 0 1.75rem; }
-      .page-title { font-size: 28px; }
-      .page-sub { font-size: 14.5px; }
-    }
+<div class="wrap">
 
-    /* section */
-    .section { padding: 2.75rem 0; border-top: 1px solid var(--color-border-tertiary); }
-    .section-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
-      color: var(--brand-blue); text-transform: uppercase; margin-bottom: 0.85rem;
-    }
-    .section-title {
-      font-family: var(--font-serif); font-weight: 900; font-size: 28px;
-      line-height: 1.2; letter-spacing: -0.01em; color: var(--color-text-primary); margin-bottom: 1.1rem;
-    }
-    .section-body { font-size: 15.5px; line-height: 1.8; color: var(--color-text-secondary); }
-    .section-body p + p { margin-top: 1rem; }
-    .section-body strong { color: var(--color-text-primary); font-weight: 600; }
-    @media (max-width: 600px) {
-      .section { padding: 2rem 0; }
-      .section-title { font-size: 22px; }
-    }
+  <div class="section-label">Select region — Bangladesh</div>
+  <div class="region-grid">
+    <button class="rtab active" onclick="setRegion('NW',this)">
+      <span class="rtab-name">Northwest (NW)</span>
+      <span class="rtab-cities">#Bogura #Dinajpur #Rangpur #Syedpur</span>
+    </button>
+    <button class="rtab" onclick="setRegion('NE',this)">
+      <span class="rtab-name">Northeast (NE)</span>
+      <span class="rtab-cities">#Mymensingh #Srimangal #Sylhet</span>
+    </button>
+    <button class="rtab" onclick="setRegion('WC',this)">
+      <span class="rtab-name">West Central (WC)</span>
+      <span class="rtab-cities">#Rajshahi #Jessore #Ishurdi #Chuadanga #Faridpur #Tangail</span>
+    </button>
+    <button class="rtab" onclick="setRegion('EC',this)">
+      <span class="rtab-name">East Central (EC)</span>
+      <span class="rtab-cities">#Dhaka #Cumilla #Chandpur #Madaripur</span>
+    </button>
+  </div>
 
-    /* poster images */
-    .poster-wrap {
-      border-radius: var(--border-radius-lg); overflow: hidden;
-      border: 1px solid var(--color-border-tertiary); box-shadow: 0 8px 28px rgba(15,63,115,0.08);
-      margin-bottom: 0.75rem;
-    }
-    .poster-wrap img { width: 100%; height: auto; display: block; }
-    .poster-caption { font-size: 12px; color: var(--color-text-tertiary); text-align: center; letter-spacing: 0.04em; margin-top: 8px; }
+  <div id="calLabel">Monthly average THI — Northwest Region</div>
+  <div class="grid12" id="calGrid"></div>
 
-    .poster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 1.5rem; }
-    @media (max-width: 600px) { .poster-grid { grid-template-columns: 1fr; gap: 16px; } }
+  <div class="legend">
+    <div class="leg"><div class="dot" style="background:#639922;"></div> No stress (&lt;72)</div>
+    <div class="leg"><div class="dot" style="background:#EF9F27;"></div> Mild (72–78)</div>
+    <div class="leg"><div class="dot" style="background:#D85A30;"></div> Moderate (79–88)</div>
+    <div class="leg"><div class="dot" style="background:#E24B4A;"></div> Severe (89–98)</div>
+    <div class="leg"><div class="dot" style="background:#185FA5;"></div> StreX recommended</div>
+  </div>
 
-    /* thi info cards */
-    .thi-legend {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 1.5rem;
-    }
-    .thi-card {
-      border-radius: var(--border-radius-md); padding: 14px 12px; text-align: center;
-      border: 1px solid var(--color-border-tertiary);
-    }
-    .thi-card.safe { background: #e8f5e9; border-color: #a5d6a7; }
-    .thi-card.mild { background: #fffde7; border-color: #fff176; }
-    .thi-card.severe { background: #fff3e0; border-color: #ffcc80; }
-    .thi-card.danger { background: #fce4ec; border-color: #f48fb1; }
-    .thi-range { font-size: 18px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px; }
-    .thi-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); }
-    @media (max-width: 600px) {
-      .thi-legend { grid-template-columns: repeat(2, 1fr); }
-    }
+  <div class="season-row" id="seasonRow"></div>
 
-    /* CTA */
-    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 22px; background: var(--brand-blue); color: #ffffff;
-      font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
-      text-decoration: none; border-radius: 8px; transition: background 0.15s;
-    }
-    .btn-primary:hover { background: var(--brand-blue-deep); }
-    .btn-primary::after { content: '→'; }
-
-    /* footer */
-    .pathway-footer { border-top: 1px solid var(--color-border-tertiary); background: #ffffff; margin-top: 2.5rem; padding: 20px 0 28px; }
-    .pathway-footer-inner { max-width: 760px; margin: 0 auto; padding: 0 1.75rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
-    .pf-left { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-    .pf-logo { height: 44px; width: auto; display: block; }
-    .pf-tagline { font-size: 13px; font-weight: 600; color: #1a2e42; line-height: 1.4; }
-    .pf-website { font-size: 11px; color: #6b8299; margin-top: 3px; }
-    .pf-right { text-align: right; font-size: 12px; color: #4a6278; line-height: 1.7; flex-shrink: 0; }
-    .pf-right strong { color: #1a2e42; }
-    .pf-address { font-size: 11px; color: #8fa3b4; margin-top: 4px; }
-    @media (max-width: 600px) {
-      .pathway-footer-inner { flex-direction: column; gap: 16px; }
-      .pf-right { text-align: left; }
-      .pf-logo { height: 36px; }
-    }
-  </style>
-</head>
-<body>
-
-  <header class="site-header">
-    <a href="pathway.html" class="logo"><span>P</span>athway <em>Bangladesh</em></a>
-    <nav class="site-nav">
-      <a href="pathway.html">Home</a>
-      <a href="index.html" class="active">Heat Calendar</a>
-      <a href="self-diagnosis.html">Self-Diagnosis</a>
-      <a href="strex.html">STREX</a>
-    </nav>
-  </header>
-
-  <main>
-
-    <section class="page-header">
-      <div class="page-eyebrow">Bangladesh · Livestock Heat Stress</div>
-      <h1 class="page-title">Heat Stress<br/><em>Calendar</em></h1>
-      <p class="page-sub">
-        A month-by-month guide to Bangladesh's livestock heat stress risk — based on regional THI (Temperature Humidity Index) data — to help farms plan STREX application and preventive protocols ahead of peak stress periods.
-      </p>
-    </section>
-
-    <!-- main calendar poster -->
-    <section class="section">
-      <div class="section-eyebrow">Annual Heat Stress Calendar</div>
-      <h2 class="section-title">Month-by-month THI risk guide for Bangladesh farms.</h2>
-      <div class="poster-wrap">
-        <img src="Heat calendar poster.png" alt="Bangladesh Livestock Heat Stress Calendar — Annual THI Risk Guide" />
-      </div>
-      <div class="poster-caption">Bangladesh Livestock Heat Stress Calendar · Pathway Intermediates Bangladesh</div>
-
-      <div class="section-body" style="margin-top: 1.5rem;">
-        <p>
-          Bangladesh's climate creates <strong>high heat stress risk from April through October</strong>, with peak danger months typically running May–September when both temperature and humidity reach critical THI levels for broiler, layer, and dairy operations.
-        </p>
-        <p>
-          Farms should begin STREX supplementation <strong>before</strong> THI levels cross the mild-stress threshold — proactive management significantly outperforms reactive treatment in maintaining productivity through summer.
-        </p>
-      </div>
-    </section>
-
-    <!-- THI reference -->
-    <section class="section">
-      <div class="section-eyebrow">THI Reference Guide</div>
-      <h2 class="section-title">Understanding the Temperature Humidity Index.</h2>
-      <div class="section-body">
-        <p>
-          THI combines ambient temperature and relative humidity into a single index that reflects the true thermal burden on livestock. A THI above <strong>72</strong> signals the start of heat stress for most commercial poultry species; dairy cattle show effects from THI <strong>68</strong> upward.
-        </p>
-      </div>
-
-      <div class="thi-legend">
-        <div class="thi-card safe">
-          <div class="thi-range">&lt; 68</div>
-          <div class="thi-label">Safe</div>
-        </div>
-        <div class="thi-card mild">
-          <div class="thi-range">68–72</div>
-          <div class="thi-label">Mild Stress</div>
-        </div>
-        <div class="thi-card severe">
-          <div class="thi-range">73–79</div>
-          <div class="thi-label">Severe Stress</div>
-        </div>
-        <div class="thi-card danger">
-          <div class="thi-range">≥ 80</div>
-          <div class="thi-label">Danger Zone</div>
-        </div>
-      </div>
-
-      <div style="margin-top: 1.75rem;">
-        <div class="poster-wrap">
-          <img src="thi-map.png" alt="Bangladesh THI Map — Regional Heat Stress Distribution" />
-        </div>
-        <div class="poster-caption">Bangladesh Regional THI Distribution Map · Pathway Intermediates</div>
-      </div>
-    </section>
-
-    <!-- horizontal poster -->
-    <section class="section">
-      <div class="section-eyebrow">Heat Calendar · Horizontal Version</div>
-      <h2 class="section-title">Full-year heat stress overview.</h2>
-      <div class="poster-wrap">
-        <img src="가로형 방글라데시 Heat calendar 포스터.png" alt="Bangladesh Heat Stress Calendar — Horizontal Poster" />
-      </div>
-      <div class="poster-caption">Bangladesh Heat Stress Calendar · Horizontal Format · Pathway Intermediates Bangladesh</div>
-
-      <div class="cta-row">
-        <a href="strex.html" class="btn-primary">Learn about STREX</a>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="pathway-footer">
-    <div class="pathway-footer-inner">
-      <div class="pf-left">
-        <img class="pf-logo" src="pathway-logo.jpeg" alt="Pathway Intermediates">
-        <div>
-          <div class="pf-tagline">The Science of Feeding Tomorrow</div>
-          <div class="pf-website">www.pathway-intermediates.com</div>
-        </div>
-      </div>
-      <div class="pf-right">
-        <div><strong>E-mail</strong>&nbsp; <a href="mailto:Ralph.kim@pathway-intermediates.com" style="color:#185FA5;text-decoration:none;">Ralph.kim@pathway-intermediates.com</a></div>
-        <div><strong>Contact No.</strong>&nbsp; +880 1915467928</div>
-        <div class="pf-address">House No. 70/B, 5th Floor, Lake Circus, Kalabagan, Dhaka-1205, Bangladesh</div>
-        <div class="pf-address">6th Floor, 308 Gangnam-Daero, Gangnam-Gu, Seoul, South Korea</div>
-      </div>
+  <div class="cards2">
+    <div class="icard">
+      <div class="icard-title">Annual summary</div>
+      <div id="summaryRows"></div>
     </div>
-  </footer>
+    <div class="icard">
+      <div class="icard-title">StreX window</div>
+      <div id="strexRows"></div>
+    </div>
+  </div>
 
-</body>
-</html>
+  <div class="banner" id="strexBanner"></div>
+  <div class="source-note">Data source: Islam et al. (2023), Annals of Bangladesh Agriculture — 27-year BMD meteorological data (1995–2022). Armstrong (1994) THI scale.</div>
+</div>
+
+<script>
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const regions = {
+  NW: {
+    label:'Monthly average THI — Northwest Region',
+    thi:[65,66,70,74,76,79,80,80,79,75,70,66],
+    maxThi:[75,78,81,84,86,86,87,87,86,83,80,76],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'70–79',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'75–80',zone:'Mild → Moderate',bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B'},
+      winter:{months:'Nov – Feb',avgTHI:'65–70',zone:'No stress',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'Northwest Bangladesh (Bogura, Dinajpur, Rangpur, Syedpur) enters mild stress from March and peaks at moderate levels (THI 79–80) during the rainy season. StreX is recommended from April through October.'
+  },
+  NE: {
+    label:'Monthly average THI — Northeast Region',
+    thi:[65,67,71,74,77,79,80,80,79,75,70,66],
+    maxThi:[75,78,81,84,85,86,86,86,86,83,80,76],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'71–79',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'75–80',zone:'Mild → Moderate',bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B'},
+      winter:{months:'Nov – Feb',avgTHI:'65–71',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'Northeast Bangladesh (Mymensingh, Srimangal, Sylhet) has moderate heat stress from June through September. Mild stress starts from March. StreX from April supports flock performance ahead of the peak window.'
+  },
+  WC: {
+    label:'Monthly average THI — West Central Region',
+    thi:[66,67,72,76,79,81,81,81,80,76,71,67],
+    maxThi:[76,79,83,87,89,89,90,90,88,86,82,77],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'72–81',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'76–81',zone:'Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      winter:{months:'Nov – Feb',avgTHI:'66–72',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,true,true,true,true,true,true,true,true,false,false],
+    strexWindow:'March – October',strexMonths:8,
+    note:'West Central Bangladesh (Rajshahi, Jessore, Ishurdi, Chuadanga, Faridpur, Tangail) is the highest-risk region — the hottest in the country. Average THI peaks at 81 from June to August, with maximum THI reaching severe levels (89–90) in peak summer. StreX is critical from March through October.'
+  },
+  EC: {
+    label:'Monthly average THI — East Central Region',
+    thi:[66,67,71,75,78,80,81,81,80,76,71,67],
+    maxThi:[76,79,82,85,87,86,87,87,86,85,82,77],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'71–80',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'76–81',zone:'Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      winter:{months:'Nov – Feb',avgTHI:'66–71',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'East Central Bangladesh (Dhaka, Cumilla, Chandpur, Madaripur) includes the capital and most commercial broiler farms. THI reaches moderate stress (80–81) from June through September. StreX from April prevents peak-season performance decline.'
+  }
+};
+
+function zoneStyle(thi) {
+  if (thi < 72) return {bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11',label:'SAFE'};
+  if (thi < 79) return {bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B',label:'MILD'};
+  if (thi < 89) return {bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D',label:'MODERATE'};
+  return {bg:'#FCEBEB',border:'#F7C1C1',tc:'#A32D2D',label:'SEVERE'};
+}
+
+function render(rkey) {
+  const d = regions[rkey];
+  document.getElementById('calLabel').textContent = d.label;
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  months.forEach((m,i) => {
+    const thi = d.thi[i];
+    const z = zoneStyle(thi);
+    const card = document.createElement('div');
+    card.className = 'mc';
+    card.style.background = z.bg;
+    card.style.borderColor = z.border;
+    const pin = d.strex[i] ? `<div class="strex-pin">StreX</div>` : '';
+    card.innerHTML = `${pin}<div class="mc-name" style="color:${z.tc};">${m}</div><div class="mc-thi" style="color:${z.tc};">${thi}</div><div class="mc-zone" style="color:${z.tc};">${z.label}</div>`;
+    grid.appendChild(card);
+  });
+
+  const sr = document.getElementById('seasonRow');
+  const skeys = ['summer','rainy','winter'];
+  const snames = ['Summer','Rainy season','Winter'];
+  sr.innerHTML = skeys.map((sk,i) => {
+    const s = d.seasons[sk];
+    return `<div class="season-card" style="background:${s.bg};border:0.5px solid ${s.border};">
+      <div class="season-name" style="color:${s.tc};">${snames[i]}</div>
+      <div class="season-months" style="color:${s.tc};">${s.months}</div>
+      <div class="season-thi" style="color:${s.tc};">Avg THI ${s.avgTHI}</div>
+      <div class="season-zone" style="color:${s.tc};">${s.zone}</div>
+    </div>`;
+  }).join('');
+
+  const maxTHI = Math.max(...d.thi);
+  const avgTHI = Math.round(d.thi.reduce((a,b)=>a+b,0)/12);
+  const peakMonth = months[d.thi.indexOf(maxTHI)];
+
+  document.getElementById('summaryRows').innerHTML = `
+    <div class="irow"><span class="irow-l">Annual avg THI</span><span class="irow-r">${avgTHI}</span></div>
+    <div class="irow"><span class="irow-l">Peak avg THI</span><span class="irow-r">${maxTHI} (${peakMonth})</span></div>
+    <div class="irow"><span class="irow-l">Peak max THI</span><span class="irow-r">${Math.max(...d.maxThi)} recorded</span></div>
+    <div class="irow"><span class="irow-l">Safe months</span><span class="irow-r">Dec – Feb</span></div>
+  `;
+  document.getElementById('strexRows').innerHTML = `
+    <div class="irow"><span class="irow-l">Recommended period</span><span class="irow-r">${d.strexWindow}</span></div>
+    <div class="irow"><span class="irow-l">Duration</span><span class="irow-r">${d.strexMonths} months/year</span></div>
+    <div class="irow"><span class="irow-l">Critical months</span><span class="irow-r">Jun – Sep</span></div>
+    <div class="irow"><span class="irow-l">THI scale</span><span class="irow-r">Armstrong (1994)</span></div>
+  `;
+  document.getElementById('strexBanner').innerHTML = `
+    <div class="banner-title">StreX intervention strategy — ${rkey} region</div>
+    <div class="banner-body">${d.note}</div>
+  `;
+}
+
+function setRegion(r, el) {
+  document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render(r);
+}
+
+render('NW');
+</script>
