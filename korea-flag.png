@@ -49,8 +49,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── shared site header (used across all pages) ── */
-    .site-header {
+    header {
       background: #ffffff;
       border-bottom: 1px solid var(--color-border-tertiary);
       padding: 0 1.75rem;
@@ -58,50 +57,23 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
     }
-    .site-header .logo {
+
+    .logo {
       font-size: 17px;
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--color-text-primary);
-      text-decoration: none;
-      white-space: nowrap;
     }
-    .site-header .logo span { color: #185FA5; }
-    .site-header .logo em {
-      font-style: normal;
-      font-weight: 400;
+
+    .logo span {
+      color: #185FA5;
+    }
+
+    .header-sub {
+      font-size: 12px;
       color: var(--color-text-tertiary);
-      margin-left: 4px;
-      font-size: 13px;
-      letter-spacing: 0;
-    }
-    .site-nav {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-    }
-    .site-nav a {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--color-text-secondary);
-      text-decoration: none;
-      padding: 18px 0;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-      white-space: nowrap;
-    }
-    .site-nav a:hover { color: var(--color-text-primary); }
-    .site-nav a.active {
-      color: var(--color-text-primary);
-      border-bottom-color: #185FA5;
-    }
-    @media (max-width: 600px) {
-      .site-header { padding: 0 1rem; gap: 8px; }
-      .site-header .logo em { display: none; }
-      .site-nav { gap: 14px; }
-      .site-nav a { font-size: 11.5px; padding: 18px 0; }
+      letter-spacing: 0.01em;
     }
 
     main {
@@ -597,14 +569,9 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <a href="pathway.html" class="logo"><span>P</span>athway <em>Bangladesh</em></a>
-    <nav class="site-nav">
-      <a href="pathway.html">Home</a>
-      <a href="index.html" class="active">Heat Calendar</a>
-      <a href="self-diagnosis.html">Self-Diagnosis</a>
-      <a href="strex.html">STREX</a>
-    </nav>
+  <header>
+    <div class="logo"><span>S</span>TREX</div>
+    <div class="header-sub">Heat Stress Calendar · Bangladesh</div>
   </header>
 
   <main>
