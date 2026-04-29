@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heat Stress Calendar · Pathway Bangladesh</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Heat Stress Calendar · Pathway Bangladesh" />
+  <meta property="og:description" content="Bangladesh Livestock Heat Stress Calendar — monthly THI risk guide for poultry and dairy farms. Pathway Intermediates Bangladesh." />
+  <meta property="og:site_name" content="Pathway Intermediates" />
+  <meta property="og:image" content="og-image.jpg" />
+  <meta name="description" content="Bangladesh Livestock Heat Stress Calendar — monthly THI risk guide for poultry and dairy farms. Pathway Intermediates Bangladesh." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --color-text-primary: #111111;
+      --color-text-secondary: #3a3a3a;
+      --color-text-tertiary: #6f6f6f;
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f4f4f4;
+      --color-border-secondary: #b8b8b8;
+      --color-border-tertiary: #e2e2e2;
+      --brand-blue: #185FA5;
+      --brand-blue-deep: #0f3f73;
+      --border-radius-md: 10px;
+      --border-radius-lg: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: #fafafa;
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-border-tertiary);
+      padding: 0 1.75rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .site-header .logo {
+      font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
+      color: var(--color-text-primary); text-decoration: none; white-space: nowrap;
+    }
+    .site-header .logo span { color: var(--brand-blue); }
+    .site-header .logo em {
+      font-style: normal; font-weight: 400; color: var(--color-text-tertiary);
+      margin-left: 4px; font-size: 13px; letter-spacing: 0;
+    }
+    .site-nav { display: flex; align-items: center; gap: 22px; }
+    .site-nav a {
+      font-size: 13px; font-weight: 500; color: var(--color-text-secondary);
+      text-decoration: none; padding: 18px 0; border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s; white-space: nowrap;
+    }
+    .site-nav a:hover { color: var(--color-text-primary); }
+    .site-nav a.active { color: var(--color-text-primary); border-bottom-color: var(--brand-blue); }
+    @media (max-width: 600px) {
+      .site-header { padding: 0 1rem; gap: 8px; }
+      .site-header .logo em { display: none; }
+      .site-nav { gap: 14px; }
+      .site-nav a { font-size: 11.5px; padding: 18px 0; }
+    }
+
+    main { max-width: 760px; margin: 0 auto; padding: 0 1.75rem; }
+
+    .page-header { padding: 3rem 0 2.25rem; }
+    .page-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      color: var(--brand-blue); text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .page-title {
+      font-family: var(--font-serif); font-weight: 900; font-size: 40px;
+      line-height: 1.1; letter-spacing: -0.02em; color: var(--color-text-primary); margin-bottom: 1.1rem;
+    }
+    .page-title em { font-style: italic; color: var(--brand-blue); }
+    .page-sub {
+      font-size: 16px; line-height: 1.75; color: var(--color-text-secondary); max-width: 600px;
+    }
+    @media (max-width: 600px) {
+      .page-header { padding: 2rem 0 1.75rem; }
+      .page-title { font-size: 28px; }
+      .page-sub { font-size: 14.5px; }
+    }
+
+    .section { padding: 2.75rem 0; border-top: 1px solid var(--color-border-tertiary); }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      color: var(--brand-blue); text-transform: uppercase; margin-bottom: 0.85rem;
+    }
+    .section-title {
+      font-family: var(--font-serif); font-weight: 900; font-size: 28px;
+      line-height: 1.2; letter-spacing: -0.01em; color: var(--color-text-primary); margin-bottom: 1.1rem;
+    }
+    .section-body { font-size: 15.5px; line-height: 1.8; color: var(--color-text-secondary); }
+    .section-body p + p { margin-top: 1rem; }
+    .section-body strong { color: var(--color-text-primary); font-weight: 600; }
+    @media (max-width: 600px) {
+      .section { padding: 2rem 0; }
+      .section-title { font-size: 22px; }
+    }
+
+    .poster-wrap {
+      border-radius: var(--border-radius-lg); overflow: hidden;
+      border: 1px solid var(--color-border-tertiary); box-shadow: 0 8px 28px rgba(15,63,115,0.08);
+      margin-bottom: 0.75rem;
+    }
+    .poster-wrap img { width: 100%; height: auto; display: block; }
+    .poster-caption { font-size: 12px; color: var(--color-text-tertiary); text-align: center; letter-spacing: 0.04em; margin-top: 8px; }
+
+    .thi-legend {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 1.5rem;
+    }
+    .thi-card {
+      border-radius: var(--border-radius-md); padding: 14px 12px; text-align: center;
+      border: 1px solid var(--color-border-tertiary);
+    }
+    .thi-card.safe { background: #e8f5e9; border-color: #a5d6a7; }
+    .thi-card.mild { background: #fffde7; border-color: #fff176; }
+    .thi-card.severe { background: #fff3e0; border-color: #ffcc80; }
+    .thi-card.danger { background: #fce4ec; border-color: #f48fb1; }
+    .thi-range { font-size: 18px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px; }
+    .thi-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-secondary); }
+    @media (max-width: 600px) {
+      .thi-legend { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; background: var(--brand-blue); color: #ffffff;
+      font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
+      text-decoration: none; border-radius: 8px; transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--brand-blue-deep); }
+    .btn-primary::after { content: '→'; }
+
+    .pathway-footer { border-top: 1px solid var(--color-border-tertiary); background: #ffffff; margin-top: 2.5rem; padding: 20px 0 28px; }
+    .pathway-footer-inner { max-width: 760px; margin: 0 auto; padding: 0 1.75rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+    .pf-left { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .pf-logo { height: 44px; width: auto; display: block; }
+    .pf-tagline { font-size: 13px; font-weight: 600; color: #1a2e42; line-height: 1.4; }
+    .pf-website { font-size: 11px; color: #6b8299; margin-top: 3px; }
+    .pf-right { text-align: right; font-size: 12px; color: #4a6278; line-height: 1.7; flex-shrink: 0; }
+    .pf-right strong { color: #1a2e42; }
+    .pf-address { font-size: 11px; color: #8fa3b4; margin-top: 4px; }
+    @media (max-width: 600px) {
+      .pathway-footer-inner { flex-direction: column; gap: 16px; }
+      .pf-right { text-align: left; }
+      .pf-logo { height: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="pathway.html" class="logo"><span>P</span>athway <em>Bangladesh</em></a>
+    <nav class="site-nav">
+      <a href="pathway.html">Home</a>
+      <a href="index.html" class="active">Heat Calendar</a>
+      <a href="self-diagnosis.html">Self-Diagnosis</a>
+      <a href="strex.html">STREX</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="page-header">
+      <div class="page-eyebrow">Bangladesh · Livestock Heat Stress</div>
+      <h1 class="page-title">Heat Stress<br/><em>Calendar</em></h1>
+      <p class="page-sub">
+        A month-by-month guide to Bangladesh's livestock heat stress risk — based on regional THI (Temperature Humidity Index) data — to help farms plan STREX application and preventive protocols ahead of peak stress periods.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-eyebrow">Annual Heat Stress Calendar</div>
+      <h2 class="section-title">Month-by-month THI risk guide for Bangladesh farms.</h2>
+      <div class="poster-wrap">
+        <img src="Heat calendar poster.png" alt="Bangladesh Livestock Heat Stress Calendar — Annual THI Risk Guide" />
+      </div>
+      <div class="poster-caption">Bangladesh Livestock Heat Stress Calendar · Pathway Intermediates Bangladesh</div>
+
+      <div class="section-body" style="margin-top: 1.5rem;">
+        <p>
+          Bangladesh's climate creates <strong>high heat stress risk from April through October</strong>, with peak danger months typically running May–September when both temperature and humidity reach critical THI levels for broiler, layer, and dairy operations.
+        </p>
+        <p>
+          Farms should begin STREX supplementation <strong>before</strong> THI levels cross the mild-stress threshold — proactive management significantly outperforms reactive treatment in maintaining productivity through summer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-eyebrow">THI Reference Guide</div>
+      <h2 class="section-title">Understanding the Temperature Humidity Index.</h2>
+      <div class="section-body">
+        <p>
+          THI combines ambient temperature and relative humidity into a single index that reflects the true thermal burden on livestock. A THI above <strong>72</strong> signals the start of heat stress for most commercial poultry species; dairy cattle show effects from THI <strong>68</strong> upward.
+        </p>
+      </div>
+
+      <div class="thi-legend">
+        <div class="thi-card safe">
+          <div class="thi-range">&lt; 68</div>
+          <div class="thi-label">Safe</div>
+        </div>
+        <div class="thi-card mild">
+          <div class="thi-range">68–72</div>
+          <div class="thi-label">Mild Stress</div>
+        </div>
+        <div class="thi-card severe">
+          <div class="thi-range">73–79</div>
+          <div class="thi-label">Severe Stress</div>
+        </div>
+        <div class="thi-card danger">
+          <div class="thi-range">≥ 80</div>
+          <div class="thi-label">Danger Zone</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.75rem;">
+        <div class="poster-wrap">
+          <img src="thi-map.png" alt="Bangladesh THI Map — Regional Heat Stress Distribution" />
+        </div>
+        <div class="poster-caption">Bangladesh Regional THI Distribution Map · Pathway Intermediates</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-eyebrow">Heat Calendar · Horizontal Version</div>
+      <h2 class="section-title">Full-year heat stress overview.</h2>
+      <div class="poster-wrap">
+        <img src="가로형 방글라데시 Heat calendar 포스터.png" alt="Bangladesh Heat Stress Calendar — Horizontal Poster" />
+      </div>
+      <div class="poster-caption">Bangladesh Heat Stress Calendar · Horizontal Format · Pathway Intermediates Bangladesh</div>
+
+      <div class="cta-row">
+        <a href="strex.html" class="btn-primary">Learn about STREX</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pathway-footer">
+    <div class="pathway-footer-inner">
+      <div class="pf-left">
+        <img class="pf-logo" src="pathway-logo.jpeg" alt="Pathway Intermediates">
+        <div>
+          <div class="pf-tagline">The Science of Feeding Tomorrow</div>
+          <div class="pf-website">www.pathway-intermediates.com</div>
+        </div>
+      </div>
+      <div class="pf-right">
+        <div><strong>E-mail</strong>&nbsp; <a href="mailto:Ralph.kim@pathway-intermediates.com" style="color:#185FA5;text-decoration:none;">Ralph.kim@pathway-intermediates.com</a></div>
+        <div><strong>Contact No.</strong>&nbsp; +880 1915467928</div>
+        <div class="pf-address">House No. 70/B, 5th Floor, Lake Circus, Kalabagan, Dhaka-1205, Bangladesh</div>
+        <div class="pf-address">6th Floor, 308 Gangnam-Daero, Gangnam-Gu, Seoul, South Korea</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
