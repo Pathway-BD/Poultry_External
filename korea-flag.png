@@ -3,18 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Heat Calendar_Pathway</title>
-  <!-- Open Graph / Link Preview (WhatsApp, KakaoTalk, Facebook) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://pathwaybd-strex.netlify.app/" />
-  <meta property="og:title" content="Heat Calendar_Pathway" />
-  <meta property="og:description" content="Bangladesh Poultry Heat Stress Calendar — THI-based risk map by region. Powered by Pathway Intermediates." />
-  <meta property="og:image" content="https://pathwaybd-strex.netlify.app/%EA%B0%80%EB%A1%9C%ED%98%95%20%EB%B0%A9%EA%B8%80%EB%9D%BC%EB%8D%B0%EC%8B%9C%20Heat%20calendar%20%ED%8F%AC%EC%8A%A4%ED%84%B0.png" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="Pathway Intermediates" />
-  <meta name="description" content="Bangladesh Poultry Heat Stress Calendar — THI-based risk map by region. Powered by Pathway Intermediates." />
+  <title>STREX — Heat Stress Calendar · Bangladesh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Lora:ital,wght@0,700;1,700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -516,55 +505,6 @@
       .banner-body { font-size: 12px; line-height: 1.65; }
       .source-note { font-size: 10px; margin-top: 12px; }
     }
-
-    /* ── pathway footer ── */
-    .pathway-footer {
-      border-top: 1px solid var(--color-border-tertiary);
-      background: #ffffff;
-      margin-top: 2.5rem;
-      padding: 20px 0 28px;
-    }
-    .pathway-footer-inner {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 0 1.75rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    .pf-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-    .pf-logo { height: 44px; width: auto; display: block; }
-    .pf-tagline {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1a2e42;
-      line-height: 1.4;
-    }
-    .pf-website {
-      font-size: 11px;
-      color: #6b8299;
-      margin-top: 3px;
-    }
-    .pf-right {
-      text-align: right;
-      font-size: 12px;
-      color: #4a6278;
-      line-height: 1.7;
-      flex-shrink: 0;
-    }
-    .pf-right strong { color: #1a2e42; }
-    .pf-address { font-size: 11px; color: #8fa3b4; margin-top: 4px; }
-    @media (max-width: 600px) {
-      .pathway-footer-inner { flex-direction: column; gap: 16px; }
-      .pf-right { text-align: left; }
-      .pf-logo { height: 36px; }
-    }
   </style>
 </head>
 <body>
@@ -982,24 +922,6 @@
 
     render('NW');
   </script>
-
-  <footer class="pathway-footer">
-    <div class="pathway-footer-inner">
-      <div class="pf-left">
-        <img class="pf-logo" src="pathway-logo.jpeg" alt="Pathway Intermediates">
-        <div>
-          <div class="pf-tagline">The Science of Feeding Tomorrow</div>
-          <div class="pf-website">www.pathway-intermediates.com</div>
-        </div>
-      </div>
-      <div class="pf-right">
-        <div><strong>E-mail</strong>&nbsp; <a href="mailto:Ralph.kim@pathway-intermediates.com" style="color:#185FA5;text-decoration:none;">Ralph.kim@pathway-intermediates.com</a></div>
-        <div><strong>Contact No.</strong>&nbsp; +880 1915467928</div>
-        <div class="pf-address">House No. 70/B, 5th Floor, Lake Circus, Kalabagan, Dhaka-1205, Bangladesh</div>
-        <div class="pf-address">6th Floor, 308 Gangnam-Daero, Gangnam-Gu, Seoul, South Korea</div>
-      </div>
-    </div>
-  </footer>
 
 </body>
 </html>

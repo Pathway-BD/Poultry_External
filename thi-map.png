@@ -51,7 +51,7 @@ html, body {
   letter-spacing:1px; text-transform:uppercase; margin-bottom:12px;
 }
 .hero-headline {
-  font-size:13px; color:#1a6ebf;
+  font-size:14px; font-weight:700; color:#1a6ebf;
   line-height:1.5; margin-bottom:10px;
 }
 .hero-desc {
@@ -193,7 +193,7 @@ html, body {
 <div class="hero-card">
   <img class="strex-logo" src="product-logo.png" alt="STREX">
   
-  <div class="hero-headline">Multi-Target Solution for Heat Stress Management </div>
+  <div class="hero-headline">A Complete Solution for Heat Stress Management</div>
   <div class="hero-desc">Anti-stress total solution for heat stress, vaccination stress, and disease challenge. Cooling sensation &amp; feed intake support.</div>
   <div class="tags">
     <span class="tag">cooling sensation</span>
@@ -273,7 +273,7 @@ html, body {
   </div>
   <div class="spec-row">
     <span class="spec-key">Manufacturer</span>
-    <span class="spec-val">Pathway Intermediates (EASYBIO)</span>
+    <span class="spec-val">Pathway Intermediates</span>
   </div>
 </div>
 
@@ -293,5 +293,6 @@ html, body {
     <a href="mailto:abdur.rahman@pathway-intermediates.com" style="color:#1a6ebf;text-decoration:none;">abdur.rahman@pathway-intermediates.com</a>
   </div>
 </div>
+
 </body>
 </html>
