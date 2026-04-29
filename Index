@@ -1,0 +1,226 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1.5rem 0 2rem; font-family: var(--font-sans); }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 0.75rem; }
+.region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
+.rtab { padding: 12px 16px; font-size: 13px; font-weight: 500; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; color: var(--color-text-secondary); background: var(--color-background-primary); transition: all 0.15s; text-align: left; line-height: 1.4; }
+.rtab:hover { border-color: var(--color-border-secondary); }
+.rtab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+.rtab-name { display: block; font-weight: 500; }
+.rtab-cities { display: block; font-size: 10px; font-weight: 400; opacity: 0.5; margin-top: 3px; }
+.rtab.active .rtab-cities { opacity: 0.45; }
+#calLabel { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; margin-bottom: 16px; }
+.mc { border-radius: 8px; padding: 9px 4px 8px; text-align: center; border: 0.5px solid transparent; position: relative; }
+.mc-name { font-size: 10px; font-weight: 500; margin-bottom: 3px; }
+.mc-thi { font-size: 18px; font-weight: 500; line-height: 1; margin-bottom: 2px; }
+.mc-zone { font-size: 8px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+.strex-pin { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: #185FA5; color: #E6F1FB; font-size: 7.5px; font-weight: 500; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1.25rem; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.season-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+.season-card { border-radius: var(--border-radius-md); padding: 12px 14px; border: 0.5px solid transparent; }
+.season-name { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+.season-months { font-size: 12px; margin-bottom: 5px; }
+.season-thi { font-size: 14px; font-weight: 500; }
+.season-zone { font-size: 11px; margin-top: 2px; }
+.cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+.icard { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+.icard-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.irow { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; }
+.irow:last-child { border-bottom: none; }
+.irow-l { color: var(--color-text-secondary); }
+.irow-r { font-weight: 500; color: var(--color-text-primary); }
+.banner { border: 0.5px solid #378ADD55; background: #E6F1FB33; border-radius: var(--border-radius-md); padding: 14px 16px; }
+.banner-title { font-size: 12px; font-weight: 500; color: #185FA5; margin-bottom: 5px; }
+.banner-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.65; }
+.source-note { font-size: 10px; color: var(--color-text-tertiary); margin-top: 12px; }
+
+.rtab {
+  text-align: center;
+}
+.season-card {
+  text-align: center;
+}
+
+
+</style>
+
+<div class="wrap">
+
+  <div class="section-label">Select region — Bangladesh</div>
+  <div class="region-grid">
+    <button class="rtab active" onclick="setRegion('NW',this)">
+      <span class="rtab-name">Northwest (NW)</span>
+      <span class="rtab-cities">#Bogura #Dinajpur #Rangpur #Syedpur</span>
+    </button>
+    <button class="rtab" onclick="setRegion('NE',this)">
+      <span class="rtab-name">Northeast (NE)</span>
+      <span class="rtab-cities">#Mymensingh #Srimangal #Sylhet</span>
+    </button>
+    <button class="rtab" onclick="setRegion('WC',this)">
+      <span class="rtab-name">West Central (WC)</span>
+      <span class="rtab-cities">#Rajshahi #Jessore #Ishurdi #Chuadanga #Faridpur #Tangail</span>
+    </button>
+    <button class="rtab" onclick="setRegion('EC',this)">
+      <span class="rtab-name">East Central (EC)</span>
+      <span class="rtab-cities">#Dhaka #Cumilla #Chandpur #Madaripur</span>
+    </button>
+  </div>
+
+  <div id="calLabel">Monthly average THI — Northwest Region</div>
+  <div class="grid12" id="calGrid"></div>
+
+  <div class="legend">
+    <div class="leg"><div class="dot" style="background:#639922;"></div> No stress (&lt;72)</div>
+    <div class="leg"><div class="dot" style="background:#EF9F27;"></div> Mild (72–78)</div>
+    <div class="leg"><div class="dot" style="background:#D85A30;"></div> Moderate (79–88)</div>
+    <div class="leg"><div class="dot" style="background:#E24B4A;"></div> Severe (89–98)</div>
+    <div class="leg"><div class="dot" style="background:#185FA5;"></div> StreX recommended</div>
+  </div>
+
+  <div class="season-row" id="seasonRow"></div>
+
+  <div class="cards2">
+    <div class="icard">
+      <div class="icard-title">Annual summary</div>
+      <div id="summaryRows"></div>
+    </div>
+    <div class="icard">
+      <div class="icard-title">StreX window</div>
+      <div id="strexRows"></div>
+    </div>
+  </div>
+
+  <div class="banner" id="strexBanner"></div>
+  <div class="source-note">Data source: Islam et al. (2023), Annals of Bangladesh Agriculture — 27-year BMD meteorological data (1995–2022). Armstrong (1994) THI scale.</div>
+</div>
+
+<script>
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const regions = {
+  NW: {
+    label:'Monthly average THI — Northwest Region',
+    thi:[65,66,70,74,76,79,80,80,79,75,70,66],
+    maxThi:[75,78,81,84,86,86,87,87,86,83,80,76],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'70–79',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'75–80',zone:'Mild → Moderate',bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B'},
+      winter:{months:'Nov – Feb',avgTHI:'65–70',zone:'No stress',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'Northwest Bangladesh (Bogura, Dinajpur, Rangpur, Syedpur) enters mild stress from March and peaks at moderate levels (THI 79–80) during the rainy season. StreX is recommended from April through October.'
+  },
+  NE: {
+    label:'Monthly average THI — Northeast Region',
+    thi:[65,67,71,74,77,79,80,80,79,75,70,66],
+    maxThi:[75,78,81,84,85,86,86,86,86,83,80,76],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'71–79',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'75–80',zone:'Mild → Moderate',bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B'},
+      winter:{months:'Nov – Feb',avgTHI:'65–71',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'Northeast Bangladesh (Mymensingh, Srimangal, Sylhet) has moderate heat stress from June through September. Mild stress starts from March. StreX from April supports flock performance ahead of the peak window.'
+  },
+  WC: {
+    label:'Monthly average THI — West Central Region',
+    thi:[66,67,72,76,79,81,81,81,80,76,71,67],
+    maxThi:[76,79,83,87,89,89,90,90,88,86,82,77],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'72–81',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'76–81',zone:'Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      winter:{months:'Nov – Feb',avgTHI:'66–72',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,true,true,true,true,true,true,true,true,false,false],
+    strexWindow:'March – October',strexMonths:8,
+    note:'West Central Bangladesh (Rajshahi, Jessore, Ishurdi, Chuadanga, Faridpur, Tangail) is the highest-risk region — the hottest in the country. Average THI peaks at 81 from June to August, with maximum THI reaching severe levels (89–90) in peak summer. StreX is critical from March through October.'
+  },
+  EC: {
+    label:'Monthly average THI — East Central Region',
+    thi:[66,67,71,75,78,80,81,81,80,76,71,67],
+    maxThi:[76,79,82,85,87,86,87,87,86,85,82,77],
+    seasons:{
+      summer:{months:'Mar – Jun',avgTHI:'71–80',zone:'Mild → Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      rainy:{months:'Jul – Oct',avgTHI:'76–81',zone:'Moderate',bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D'},
+      winter:{months:'Nov – Feb',avgTHI:'66–71',zone:'No stress → Mild',bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11'}
+    },
+    strex:[false,false,false,true,true,true,true,true,true,true,false,false],
+    strexWindow:'April – October',strexMonths:7,
+    note:'East Central Bangladesh (Dhaka, Cumilla, Chandpur, Madaripur) includes the capital and most commercial broiler farms. THI reaches moderate stress (80–81) from June through September. StreX from April prevents peak-season performance decline.'
+  }
+};
+
+function zoneStyle(thi) {
+  if (thi < 72) return {bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11',label:'SAFE'};
+  if (thi < 79) return {bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B',label:'MILD'};
+  if (thi < 89) return {bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D',label:'MODERATE'};
+  return {bg:'#FCEBEB',border:'#F7C1C1',tc:'#A32D2D',label:'SEVERE'};
+}
+
+function render(rkey) {
+  const d = regions[rkey];
+  document.getElementById('calLabel').textContent = d.label;
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  months.forEach((m,i) => {
+    const thi = d.thi[i];
+    const z = zoneStyle(thi);
+    const card = document.createElement('div');
+    card.className = 'mc';
+    card.style.background = z.bg;
+    card.style.borderColor = z.border;
+    const pin = d.strex[i] ? `<div class="strex-pin">StreX</div>` : '';
+    card.innerHTML = `${pin}<div class="mc-name" style="color:${z.tc};">${m}</div><div class="mc-thi" style="color:${z.tc};">${thi}</div><div class="mc-zone" style="color:${z.tc};">${z.label}</div>`;
+    grid.appendChild(card);
+  });
+
+  const sr = document.getElementById('seasonRow');
+  const skeys = ['summer','rainy','winter'];
+  const snames = ['Summer','Rainy season','Winter'];
+  sr.innerHTML = skeys.map((sk,i) => {
+    const s = d.seasons[sk];
+    return `<div class="season-card" style="background:${s.bg};border:0.5px solid ${s.border};">
+      <div class="season-name" style="color:${s.tc};">${snames[i]}</div>
+      <div class="season-months" style="color:${s.tc};">${s.months}</div>
+      <div class="season-thi" style="color:${s.tc};">Avg THI ${s.avgTHI}</div>
+      <div class="season-zone" style="color:${s.tc};">${s.zone}</div>
+    </div>`;
+  }).join('');
+
+  const maxTHI = Math.max(...d.thi);
+  const avgTHI = Math.round(d.thi.reduce((a,b)=>a+b,0)/12);
+  const peakMonth = months[d.thi.indexOf(maxTHI)];
+
+  document.getElementById('summaryRows').innerHTML = `
+    <div class="irow"><span class="irow-l">Annual avg THI</span><span class="irow-r">${avgTHI}</span></div>
+    <div class="irow"><span class="irow-l">Peak avg THI</span><span class="irow-r">${maxTHI} (${peakMonth})</span></div>
+    <div class="irow"><span class="irow-l">Peak max THI</span><span class="irow-r">${Math.max(...d.maxThi)} recorded</span></div>
+    <div class="irow"><span class="irow-l">Safe months</span><span class="irow-r">Dec – Feb</span></div>
+  `;
+  document.getElementById('strexRows').innerHTML = `
+    <div class="irow"><span class="irow-l">Recommended period</span><span class="irow-r">${d.strexWindow}</span></div>
+    <div class="irow"><span class="irow-l">Duration</span><span class="irow-r">${d.strexMonths} months/year</span></div>
+    <div class="irow"><span class="irow-l">Critical months</span><span class="irow-r">Jun – Sep</span></div>
+    <div class="irow"><span class="irow-l">THI scale</span><span class="irow-r">Armstrong (1994)</span></div>
+  `;
+  document.getElementById('strexBanner').innerHTML = `
+    <div class="banner-title">StreX intervention strategy — ${rkey} region</div>
+    <div class="banner-body">${d.note}</div>
+  `;
+}
+
+function setRegion(r, el) {
+  document.querySelectorAll('.rtab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render(r);
+}
+
+render('NW');
+</script>
