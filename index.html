@@ -1,102 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heat Calendar · Pathway Bangladesh</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Heat Calendar · Pathway Bangladesh" />
+  <meta property="og:description" content="Monthly THI heat stress calendar for Bangladesh poultry regions — Pathway Intermediates Bangladesh." />
+  <meta property="og:site_name" content="Pathway Intermediates" />
+  <meta name="description" content="Monthly THI heat stress calendar for Bangladesh poultry regions — Pathway Intermediates Bangladesh." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --color-text-primary: #111111;
+      --color-text-secondary: #3a3a3a;
+      --color-text-tertiary: #6f6f6f;
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f4f4f4;
+      --color-border-secondary: #b8b8b8;
+      --color-border-tertiary: #e2e2e2;
+      --brand-blue: #185FA5;
+      --brand-blue-deep: #0f3f73;
+      --border-radius-md: 10px;
+      --border-radius-lg: 12px;
+    }
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-.wrap { padding: 1.5rem 0 2rem; font-family: var(--font-sans); }
-.section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; color: var(--color-text-tertiary); text-transform: uppercase; margin-bottom: 0.75rem; }
-.region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
-.rtab { padding: 12px 16px; font-size: 13px; font-weight: 500; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); cursor: pointer; color: var(--color-text-secondary); background: var(--color-background-primary); transition: all 0.15s; text-align: left; line-height: 1.4; }
-.rtab:hover { border-color: var(--color-border-secondary); }
-.rtab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
-.rtab-name { display: block; font-weight: 500; }
-.rtab-cities { display: block; font-size: 10px; font-weight: 400; opacity: 0.5; margin-top: 3px; }
-.rtab.active .rtab-cities { opacity: 0.45; }
-#calLabel { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; }
-.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; margin-bottom: 16px; }
-.mc { border-radius: 8px; padding: 9px 4px 8px; text-align: center; border: 0.5px solid transparent; position: relative; }
-.mc-name { font-size: 10px; font-weight: 500; margin-bottom: 3px; }
-.mc-thi { font-size: 18px; font-weight: 500; line-height: 1; margin-bottom: 2px; }
-.mc-zone { font-size: 8px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
-.strex-pin { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: #185FA5; color: #E6F1FB; font-size: 7.5px; font-weight: 500; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
-.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1.25rem; }
-.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
-.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.season-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
-.season-card { border-radius: var(--border-radius-md); padding: 12px 14px; border: 0.5px solid transparent; }
-.season-name { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
-.season-months { font-size: 12px; margin-bottom: 5px; }
-.season-thi { font-size: 14px; font-weight: 500; }
-.season-zone { font-size: 11px; margin-top: 2px; }
-.cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
-.icard { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
-.icard-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
-.irow { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; }
-.irow:last-child { border-bottom: none; }
-.irow-l { color: var(--color-text-secondary); }
-.irow-r { font-weight: 500; color: var(--color-text-primary); }
-.banner { border: 0.5px solid #378ADD55; background: #E6F1FB33; border-radius: var(--border-radius-md); padding: 14px 16px; }
-.banner-title { font-size: 12px; font-weight: 500; color: #185FA5; margin-bottom: 5px; }
-.banner-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.65; }
-.source-note { font-size: 10px; color: var(--color-text-tertiary); margin-top: 12px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.rtab {
-  text-align: center;
-}
-.season-card {
-  text-align: center;
-}
+    body {
+      font-family: var(--font-sans);
+      background: #fafafa;
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
+    /* ── site header ── */
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--color-border-tertiary);
+      padding: 0 1.75rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .site-header .logo {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .site-header .logo span { color: var(--brand-blue); }
+    .site-header .logo em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+      margin-left: 4px;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .site-nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      padding: 18px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .site-nav a:hover { color: var(--color-text-primary); }
+    .site-nav a.active {
+      color: var(--color-text-primary);
+      border-bottom-color: var(--brand-blue);
+    }
+    @media (max-width: 600px) {
+      .site-header { padding: 0 1rem; gap: 8px; }
+      .site-header .logo em { display: none; }
+      .site-nav { gap: 14px; }
+      .site-nav a { font-size: 11.5px; padding: 18px 0; }
+    }
 
-</style>
+    /* ── main layout ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.75rem;
+    }
 
-<div class="wrap">
+    /* ── page title ── */
+    .page-title {
+      padding: 2rem 0 1.5rem;
+    }
+    .page-title h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: 0.35rem;
+    }
+    .page-title p {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+      line-height: 1.6;
+    }
+    @media (max-width: 600px) {
+      .page-title { padding: 1.5rem 0 1.25rem; }
+      .page-title h1 { font-size: 22px; }
+    }
 
-  <div class="section-label">Select region — Bangladesh</div>
-  <div class="region-grid">
-    <button class="rtab active" onclick="setRegion('NW',this)">
-      <span class="rtab-name">Northwest (NW)</span>
-      <span class="rtab-cities">#Bogura #Dinajpur #Rangpur #Syedpur</span>
-    </button>
-    <button class="rtab" onclick="setRegion('NE',this)">
-      <span class="rtab-name">Northeast (NE)</span>
-      <span class="rtab-cities">#Mymensingh #Srimangal #Sylhet</span>
-    </button>
-    <button class="rtab" onclick="setRegion('WC',this)">
-      <span class="rtab-name">West Central (WC)</span>
-      <span class="rtab-cities">#Rajshahi #Jessore #Ishurdi #Chuadanga #Faridpur #Tangail</span>
-    </button>
-    <button class="rtab" onclick="setRegion('EC',this)">
-      <span class="rtab-name">East Central (EC)</span>
-      <span class="rtab-cities">#Dhaka #Cumilla #Chandpur #Madaripur</span>
-    </button>
-  </div>
+    /* ── calendar styles ── */
+    .wrap { padding: 0 0 2rem; font-family: var(--font-sans); }
 
-  <div id="calLabel">Monthly average THI — Northwest Region</div>
-  <div class="grid12" id="calGrid"></div>
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
 
-  <div class="legend">
-    <div class="leg"><div class="dot" style="background:#639922;"></div> No stress (&lt;72)</div>
-    <div class="leg"><div class="dot" style="background:#EF9F27;"></div> Mild (72–78)</div>
-    <div class="leg"><div class="dot" style="background:#D85A30;"></div> Moderate (79–88)</div>
-    <div class="leg"><div class="dot" style="background:#E24B4A;"></div> Severe (89–98)</div>
-    <div class="leg"><div class="dot" style="background:#185FA5;"></div> StreX recommended</div>
-  </div>
+    /* region tabs */
+    .region-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .rtab {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--border-radius-lg);
+      border: 0.5px solid var(--color-border-tertiary);
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      background: var(--color-background-primary);
+      transition: all 0.15s;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .rtab:hover { border-color: var(--color-border-secondary); }
+    .rtab.active {
+      background: var(--color-text-primary);
+      color: var(--color-background-primary);
+      border-color: transparent;
+    }
+    .rtab-name { display: block; font-weight: 500; }
+    .rtab-cities {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.5;
+      margin-top: 3px;
+    }
+    .rtab.active .rtab-cities { opacity: 0.45; }
 
-  <div class="season-row" id="seasonRow"></div>
+    /* calendar label */
+    #calLabel {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
 
-  <div class="cards2">
-    <div class="icard">
-      <div class="icard-title">Annual summary</div>
-      <div id="summaryRows"></div>
+    /* 12-month grid — responsive */
+    .grid12 {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+
+    /* tablet: 6 per row */
+    @media (max-width: 700px) {
+      .grid12 {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+      }
+    }
+
+    /* small phone: 4 per row */
+    @media (max-width: 420px) {
+      .grid12 {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+      }
+    }
+
+    .mc {
+      border-radius: 8px;
+      padding: 9px 4px 8px;
+      text-align: center;
+      border: 0.5px solid transparent;
+      position: relative;
+    }
+    .mc-name {
+      font-size: 10px;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .mc-thi {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .mc-zone {
+      font-size: 8px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .strex-pin {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #185FA5;
+      color: #E6F1FB;
+      font-size: 7.5px;
+      font-weight: 500;
+      padding: 1px 7px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    /* responsive adjustments for month cells on small screens */
+    @media (max-width: 700px) {
+      .mc { padding: 10px 4px 9px; border-radius: 10px; }
+      .mc-thi { font-size: 20px; }
+      .mc-name { font-size: 11px; }
+      .mc-zone { font-size: 9px; }
+      .strex-pin { font-size: 8px; padding: 2px 8px; top: -9px; }
+    }
+
+    /* legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+    .leg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* season cards */
+    .season-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+    }
+    .season-card {
+      border-radius: var(--border-radius-md);
+      padding: 12px 14px;
+      border: 0.5px solid transparent;
+      text-align: center;
+    }
+    .season-name {
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+    }
+    .season-months { font-size: 12px; margin-bottom: 5px; }
+    .season-thi { font-size: 14px; font-weight: 500; }
+    .season-zone { font-size: 11px; margin-top: 2px; }
+
+    @media (max-width: 420px) {
+      .season-card { padding: 10px 8px; }
+      .season-name { font-size: 9px; }
+      .season-months { font-size: 11px; }
+      .season-thi { font-size: 13px; }
+      .season-zone { font-size: 10px; }
+    }
+
+    /* info cards */
+    .cards2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 480px) {
+      .cards2 { grid-template-columns: 1fr; }
+    }
+    .icard {
+      background: var(--color-background-secondary);
+      border-radius: var(--border-radius-md);
+      padding: 14px 16px;
+    }
+    .icard-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .irow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      font-size: 12px;
+    }
+    .irow:last-child { border-bottom: none; }
+    .irow-l { color: var(--color-text-secondary); }
+    .irow-r { font-weight: 500; color: var(--color-text-primary); }
+
+    /* banner */
+    .banner {
+      border: 0.5px solid #378ADD55;
+      background: #E6F1FB33;
+      border-radius: var(--border-radius-md);
+      padding: 14px 16px;
+    }
+    .banner-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: #185FA5;
+      margin-bottom: 5px;
+    }
+    .banner-body {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+    }
+    .source-note {
+      font-size: 10px;
+      color: var(--color-text-tertiary);
+      margin-top: 12px;
+    }
+
+    /* ── footer ── */
+    .site-footer {
+      border-top: 1px solid var(--color-border-tertiary);
+      background: #ffffff;
+      margin-top: 2rem;
+      padding: 20px 0 28px;
+    }
+    .site-footer-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.75rem;
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="pathway.html" class="logo"><span>P</span>athway <em>Bangladesh</em></a>
+    <nav class="site-nav">
+      <a href="pathway.html">Home</a>
+      <a href="index.html" class="active">Heat Calendar</a>
+      <a href="self-diagnosis.html">Self-Diagnosis</a>
+      <a href="strex.html">STREX</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-title">
+      <h1>Heat Stress Calendar</h1>
+      <p>Monthly average THI by region — Bangladesh poultry production zones</p>
     </div>
-    <div class="icard">
-      <div class="icard-title">StreX window</div>
-      <div id="strexRows"></div>
-    </div>
-  </div>
 
-  <div class="banner" id="strexBanner"></div>
-  <div class="source-note">Data source: Islam et al. (2023), Annals of Bangladesh Agriculture — 27-year BMD meteorological data (1995–2022). Armstrong (1994) THI scale.</div>
-</div>
+    <div class="wrap">
+
+      <div class="section-label">Select region — Bangladesh</div>
+      <div class="region-grid">
+        <button class="rtab active" onclick="setRegion('NW',this)">
+          <span class="rtab-name">Northwest (NW)</span>
+          <span class="rtab-cities">#Bogura #Dinajpur #Rangpur #Syedpur</span>
+        </button>
+        <button class="rtab" onclick="setRegion('NE',this)">
+          <span class="rtab-name">Northeast (NE)</span>
+          <span class="rtab-cities">#Mymensingh #Srimangal #Sylhet</span>
+        </button>
+        <button class="rtab" onclick="setRegion('WC',this)">
+          <span class="rtab-name">West Central (WC)</span>
+          <span class="rtab-cities">#Rajshahi #Jessore #Ishurdi #Chuadanga #Faridpur #Tangail</span>
+        </button>
+        <button class="rtab" onclick="setRegion('EC',this)">
+          <span class="rtab-name">East Central (EC)</span>
+          <span class="rtab-cities">#Dhaka #Cumilla #Chandpur #Madaripur</span>
+        </button>
+      </div>
+
+      <div id="calLabel">Monthly average THI — Northwest Region</div>
+      <div class="grid12" id="calGrid"></div>
+
+      <div class="legend">
+        <div class="leg"><div class="dot" style="background:#639922;"></div> No stress (&lt;72)</div>
+        <div class="leg"><div class="dot" style="background:#EF9F27;"></div> Mild (72–78)</div>
+        <div class="leg"><div class="dot" style="background:#D85A30;"></div> Moderate (79–88)</div>
+        <div class="leg"><div class="dot" style="background:#E24B4A;"></div> Severe (89–98)</div>
+        <div class="leg"><div class="dot" style="background:#185FA5;"></div> StreX recommended</div>
+      </div>
+
+      <div class="season-row" id="seasonRow"></div>
+
+      <div class="cards2">
+        <div class="icard">
+          <div class="icard-title">Annual summary</div>
+          <div id="summaryRows"></div>
+        </div>
+        <div class="icard">
+          <div class="icard-title">StreX window</div>
+          <div id="strexRows"></div>
+        </div>
+      </div>
+
+      <div class="banner" id="strexBanner"></div>
+      <div class="source-note">Data source: Islam et al. (2023), Annals of Bangladesh Agriculture — 27-year BMD meteorological data (1995–2022). Armstrong (1994) THI scale.</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      &copy; Pathway Intermediates Bangladesh · pathwaybd-strex.netlify.app
+    </div>
+  </footer>
 
 <script>
 const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -159,7 +514,7 @@ const regions = {
 function zoneStyle(thi) {
   if (thi < 72) return {bg:'#EAF3DE',border:'#9FE1CB',tc:'#3B6D11',label:'SAFE'};
   if (thi < 79) return {bg:'#FAEEDA',border:'#FAC775',tc:'#854F0B',label:'MILD'};
-  if (thi < 89) return {bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D',label:'MODERATE'};
+  if (thi < 89) return {bg:'#FAECE7',border:'#F5C4B3',tc:'#993C1D',label:'MOD'};
   return {bg:'#FCEBEB',border:'#F7C1C1',tc:'#A32D2D',label:'SEVERE'};
 }
 
@@ -224,3 +579,6 @@ function setRegion(r, el) {
 
 render('NW');
 </script>
+
+</body>
+</html>
