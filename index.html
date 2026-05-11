@@ -699,7 +699,14 @@
             .layer-inputs-row { grid-template-columns: 1fr; gap: 8px; }
             .mydata-grid { grid-template-columns: repeat(2, 1fr); }
             .chart-block-body { height: 220px; }
-            .scenario-inner { grid-template-columns: 1fr; }
+            /* Hide comparison tables on mobile */
+            #layerResultTable, #layerResultTableEgg { display: none; }
+            /* Scenario: (current/gap) | (wk·std·proj) side by side */
+            .scenario-inner { grid-template-columns: 1fr 1.5fr; gap: 6px; }
+            .scenario-summary-card { padding: 6px 8px; }
+            .scenario-summary-card .sc-val { font-size: 1.05em; }
+            .scenario-week-row { padding: 5px 6px; font-size: 0.82em; }
+            .sw-proj { font-size: 0.85em; }
         }
 
 
