@@ -1,7 +1,7 @@
 {
-  "name": "Poultry Application Guide",
-  "short_name": "Poultry Guide",
-  "description": "Pathway BD Poultry Application Guide",
+  "name": "FARM-Check",
+  "short_name": "FARM-Check",
+  "description": "FARM-Check by Pathway BD",
   "start_url": "/Poultry_External/",
   "display": "standalone",
   "background_color": "#ffffff",
