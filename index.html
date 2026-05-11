@@ -46,7 +46,7 @@
         .tab-label-short { display: none; }
         .tab-label-full { display: inline; }
         /* desktop: hide mobile-only blocks */
-        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle, .future-outlook, .title-mobile { display: none; }
+        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle, .future-outlook, .title-mobile, .mobile-guide, .analyze-btn, .interp-card { display: none; }
         .title-desktop { display: inline; }
 
         /* ── Mobile (iPhone / narrow phones ≤ 600px) ── */
@@ -351,6 +351,56 @@
             .rec-protocol p { font-size: 12px !important; }
             .rec-protocol h5 { font-size: 11px !important; letter-spacing: 0.04em; }
             .rec-name { font-size: 14px !important; }
+
+            /* ── Before/After Analysis States ── */
+
+            /* Step guide (pre-analysis only) */
+            .mobile-guide { display: none; padding: 13px 14px 12px; margin: 4px 0 8px;
+                background: #f0f4fb; border-radius: 10px; border-left: 4px solid #2d6cdf; }
+            .mobile-guide .guide-title { font-size: 11px; font-weight: 700; color: #1e3a7a;
+                margin-bottom: 9px; letter-spacing: 0.5px; text-transform: uppercase; }
+            .mobile-guide .guide-steps { display: flex; flex-direction: column; gap: 7px; }
+            .mobile-guide .guide-step { font-size: 13px; color: #2a4480;
+                display: flex; align-items: center; gap: 9px; }
+            .mobile-guide .step-num { background: #2d6cdf; color: #fff; width: 22px; height: 22px;
+                border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                font-size: 11px; font-weight: 800; flex-shrink: 0; }
+
+            /* Analyze CTA button (pre-analysis only) */
+            .analyze-btn { display: none; width: 100%; padding: 15px 16px; margin: 12px 0 4px;
+                border: none; border-radius: 13px;
+                background: linear-gradient(135deg, #1e3a7a 0%, #2d6cdf 100%);
+                color: #fff; font-size: 16px; font-weight: 800; cursor: pointer;
+                align-items: center; justify-content: center; gap: 8px;
+                box-shadow: 0 4px 14px rgba(30,58,122,0.3); letter-spacing: 0.3px;
+                -webkit-tap-highlight-color: transparent; }
+            .analyze-btn:active { opacity: 0.85; transform: scale(0.99); }
+
+            /* Interpretation card (post-analysis) */
+            .interp-card { display: none; margin: 10px 0 4px; padding: 13px 15px 12px;
+                border-radius: 12px; font-size: 14px; font-weight: 700; line-height: 1.35; }
+            .interp-card.visible { display: block; }
+            .interp-card.green  { background: linear-gradient(135deg,#e8f7ed,#d6f1de);
+                border-left: 4px solid #4caf50; color: #14532d; }
+            .interp-card.yellow { background: linear-gradient(135deg,#fff8e1,#ffeec2);
+                border-left: 4px solid #f9a825; color: #7a4500; }
+            .interp-card.red    { background: linear-gradient(135deg,#ffe9eb,#ffd5d8);
+                border-left: 4px solid #e53935; color: #8a1010; }
+            .interp-card.neutral{ background: #f5f7fa; border-left: 4px solid #cfd8dc; color: #5a6b85; }
+            .interp-card .interp-sub { font-size: 12.5px; font-weight: 500;
+                margin-top: 5px; opacity: 0.85; line-height: 1.4; }
+
+            /* Pre-analysis: hide result elements */
+            .pre-analysis .diagnosis-banner,
+            .pre-analysis .mobile-kpi-cards,
+            .pre-analysis .mobile-summary,
+            .pre-analysis .mobile-actions,
+            .pre-analysis .future-outlook,
+            .pre-analysis .interp-card { display: none !important; }
+
+            /* Pre-analysis: show guide and CTA */
+            .pre-analysis .mobile-guide { display: block; }
+            .pre-analysis .analyze-btn  { display: flex; }
         }
         .field-box { margin-bottom: 1px; }
         select, input[type="text"], input[type="number"] { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
@@ -855,9 +905,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="tab-select-arrow">▼</span>
     </div>
 
-    <div id="tab0" class="tab-content active">
+    <div id="tab0" class="tab-content active pre-analysis">
         <h2><span class="title-desktop">Broiler Performance</span><span class="title-mobile">⚡ Quick Broiler Check</span></h2>
-        <!-- Mobile-only: Diagnosis Banner -->
+        <!-- Mobile-only: Step Guide (shown before analysis) -->
+        <div class="mobile-guide">
+            <div class="guide-title">How to use</div>
+            <div class="guide-steps">
+                <div class="guide-step"><span class="step-num">1</span> Select Breed &amp; Age</div>
+                <div class="guide-step"><span class="step-num">2</span> Enter Body Weight (BW)</div>
+                <div class="guide-step"><span class="step-num">3</span> Tap Analyze Performance</div>
+            </div>
+        </div>
+        <!-- Mobile-only: Diagnosis Banner (shown after analysis) -->
         <div class="diagnosis-banner neutral" id="broilerDiagnosis">
             <span class="diag-icon">⚪</span>
             <div class="diag-text">
@@ -882,7 +941,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
         <div class="input-group">
-            <h3>Check Current Performance</h3>
+            <h3>Farm Input</h3>
             <!-- Mobile-only: BW first, FCR progressive -->
             <div class="mobile-bwg-wrap">
                 <div class="field-box">
@@ -905,6 +964,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="field-box"><label>Cum. Intake (g):</label><input type="text" inputmode="decimal" id="myCumIntake" oninput="formatNum(this); updateData()"></div>
                 <div class="field-box"><label>FCR:</label><input type="text" id="myFcr" readonly style="background-color: #eee;"></div>
             </div>
+        </div>
+        <!-- Mobile-only: Analyze CTA (shown before analysis) -->
+        <button type="button" class="analyze-btn" onclick="runBroilerAnalysis()">⚡ Analyze Performance</button>
+        <!-- Mobile-only: Interpretation Card (shown after analysis) -->
+        <div class="interp-card neutral" id="broilerInterpCard">
+            <div id="broilerInterpLabel">—</div>
+            <div class="interp-sub" id="broilerInterpSub"></div>
         </div>
         <!-- Mobile-only: KPI Traffic-Light Cards -->
         <div class="mobile-kpi-cards" id="broilerKpiCards">
@@ -946,9 +1012,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
 
-<div id="tab1" class="tab-content">
+<div id="tab1" class="tab-content pre-analysis">
         <h2><span class="title-desktop">Layer Performance</span><span class="title-mobile">⚡ Quick Layer Check</span></h2>
-        <!-- Mobile-only: Diagnosis Banner -->
+        <!-- Mobile-only: Step Guide (shown before analysis) -->
+        <div class="mobile-guide">
+            <div class="guide-title">How to use</div>
+            <div class="guide-steps">
+                <div class="guide-step"><span class="step-num">1</span> Select Breed, Phase &amp; Age</div>
+                <div class="guide-step"><span class="step-num">2</span> Enter Egg Production %</div>
+                <div class="guide-step"><span class="step-num">3</span> Tap Analyze Performance</div>
+            </div>
+        </div>
+        <!-- Mobile-only: Diagnosis Banner (shown after analysis) -->
         <div class="diagnosis-banner neutral" id="layerDiagnosis">
             <span class="diag-icon">⚪</span>
             <div class="diag-text">
@@ -987,7 +1062,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
             <div class="input-group">
-                <h3>Analyze Farm Status <small style="font-weight:normal; color:#888;">(leave blank if not measured)</small></h3>
+                <h3>Farm Input <small style="font-weight:normal; color:#888;">(leave blank if not measured)</small></h3>
                 <!-- 2 × 3 uniform grid -->
                 <div class="mydata-grid">
                     <div class="field-box layer-laying-only"><label>Egg Production (%):</label><input type="text" inputmode="decimal" id="layerMyLayRate" oninput="formatNum(this); layerUpdateData()"><span class="layrate-warning" id="layerLayRateWarn">⚠️ 100% 초과 — 측정값 확인이 필요합니다</span></div>
@@ -1066,6 +1141,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
 
+        <!-- Mobile-only: Analyze CTA (shown before analysis) -->
+        <button type="button" class="analyze-btn" onclick="runLayerAnalysis()">⚡ Analyze Performance</button>
+        <!-- Mobile-only: Interpretation Card (shown after analysis) -->
+        <div class="interp-card neutral" id="layerInterpCard">
+            <div id="layerInterpLabel">—</div>
+            <div class="interp-sub" id="layerInterpSub"></div>
+        </div>
         <!-- Mobile-only: KPI Traffic-Light Cards (Layer) -->
         <div class="mobile-kpi-cards" id="layerKpiCards">
             <div class="kpi-card empty" id="kpiLayProd">
@@ -9417,6 +9499,32 @@ function toggleLayerMore(btn) {
     btn.style.display = 'none';
 }
 
+// Tap "Analyze Performance" for broiler — reveals results
+function runBroilerAnalysis() {
+    broilerMobileCalc();
+    document.getElementById('tab0').classList.remove('pre-analysis');
+}
+
+// Tap "Analyze Performance" for layer — reveals results
+function runLayerAnalysis() {
+    layerUpdateData();
+    document.getElementById('tab1').classList.remove('pre-analysis');
+}
+
+// Set interpretation card (shown after analysis, above KPI cards)
+function setInterpCard(prefix, status, label, sub) {
+    const card = document.getElementById(prefix + 'InterpCard');
+    if (!card) return;
+    card.classList.remove('green', 'yellow', 'red', 'neutral', 'visible');
+    if (status && status !== 'empty') {
+        card.classList.add(status, 'visible');
+        const lbl = document.getElementById(prefix + 'InterpLabel');
+        const subEl = document.getElementById(prefix + 'InterpSub');
+        if (lbl) lbl.textContent = label;
+        if (subEl) subEl.textContent = sub;
+    }
+}
+
 // Broiler KPI update — called from updateData()
 function updateBroilerKpis() {
     const breed = document.getElementById('breed').value;
@@ -9468,21 +9576,42 @@ function updateBroilerKpis() {
     const ciStatus  = (myCI > 0 && std.cumIntake)? trafficLight(myCI, std.cumIntake, 5, 10, false) : 'empty';
 
     // Diagnosis banner — primary verdict
+    let broilerDiagStatus = 'neutral', broilerInterpLabel = '', broilerInterpSub = '';
     if (bwStatus === 'empty') {
         setDiagnosis('broiler', 'neutral', '⚪', 'Enter Body Weight to begin', 'Quick check in 10 seconds');
+        broilerDiagStatus = 'empty';
     } else if (bwStatus === 'red' && fcrStatus === 'red') {
         setDiagnosis('broiler', 'red', '🚨', 'Multiple Risks Detected', 'Both growth and feed efficiency below standard');
+        broilerDiagStatus = 'red';
+        broilerInterpLabel = '🚨 Dual Risk Detected';
+        broilerInterpSub = 'Both body weight and feed conversion are significantly below standard — immediate action needed';
     } else if (bwStatus === 'red') {
         setDiagnosis('broiler', 'red', '🔴', 'Growth Delay Detected', 'Body weight significantly below standard');
+        broilerDiagStatus = 'red';
+        broilerInterpLabel = '🔴 Growth Delay';
+        broilerInterpSub = 'Body weight is significantly below standard — check feed access, density, and health';
     } else if (fcrStatus === 'red') {
         setDiagnosis('broiler', 'red', '🔴', 'FCR Risk', 'Feed conversion worse than expected');
+        broilerDiagStatus = 'red';
+        broilerInterpLabel = '🔴 FCR Risk';
+        broilerInterpSub = 'Feed conversion is worse than expected — review feed quality and intake levels';
     } else if (bwStatus === 'yellow' || fcrStatus === 'yellow' || ciStatus === 'red') {
         setDiagnosis('broiler', 'yellow', '🟡', 'Performance Watch', 'Some metrics off-target — monitor closely');
+        broilerDiagStatus = 'yellow';
+        broilerInterpLabel = '🟡 Performance Watch';
+        broilerInterpSub = 'Some metrics are slightly off standard — continue monitoring over the next few days';
     } else if (bwStatus === 'green' && fcrStatus === 'green') {
         setDiagnosis('broiler', 'green', '✅', 'Good Feed Efficiency', 'Growth and FCR both on target');
+        broilerDiagStatus = 'green';
+        broilerInterpLabel = '✅ Strong Performance';
+        broilerInterpSub = 'Body weight and feed efficiency are both on target — farm is performing well';
     } else {
         setDiagnosis('broiler', 'green', '✅', 'Stable Performance', 'Farm performing within normal range');
+        broilerDiagStatus = 'green';
+        broilerInterpLabel = '✅ Stable Performance';
+        broilerInterpSub = 'Farm is performing within the normal range';
     }
+    setInterpCard('broiler', broilerDiagStatus, broilerInterpLabel, broilerInterpSub);
 
     // Auto summary — short, advisor tone
     const sumEl = document.getElementById('broilerSummary');
@@ -9584,23 +9713,44 @@ function updateLayerKpis() {
     const reds = [layStatus, bwStatus, fiStatus, ewStatus].filter(s => s === 'red');
     const yels = [layStatus, bwStatus, fiStatus, ewStatus].filter(s => s === 'yellow');
 
+    let layerDiagStatus = 'empty', layerInterpLabel = '', layerInterpSub = '';
     if (!anyData) {
         const cue = layingOnly ? 'Enter Egg Production %' : 'Enter Body Weight';
         setDiagnosis('layer', 'neutral', '⚪', cue + ' to begin', 'Analyze farm status in seconds');
+        layerDiagStatus = 'empty';
     } else if (layStatus === 'red') {
         setDiagnosis('layer', 'red', '🔴', 'Production Drop Detected', 'Egg production below standard');
+        layerDiagStatus = 'red';
+        layerInterpLabel = '🔴 Production Drop Detected';
+        layerInterpSub = 'Egg production is significantly below standard — review flock health, nutrition, and lighting';
     } else if (bwStatus === 'red') {
         setDiagnosis('layer', 'red', '🔴', 'Body Weight Concern', 'BW significantly off standard');
+        layerDiagStatus = 'red';
+        layerInterpLabel = '🔴 Body Weight Below Target';
+        layerInterpSub = 'Body weight is significantly off standard — check feed quantity and quality';
     } else if (fiStatus === 'red') {
         setDiagnosis('layer', 'red', '🔴', 'Feed Intake Risk', 'Feed intake outside expected range');
+        layerDiagStatus = 'red';
+        layerInterpLabel = '🔴 Feed Intake Risk';
+        layerInterpSub = 'Feed intake is outside the expected range — check feeders, palatability, and water access';
     } else if (reds.length > 0) {
         setDiagnosis('layer', 'red', '🔴', 'Action Needed', 'Performance below expected level');
+        layerDiagStatus = 'red';
+        layerInterpLabel = '🔴 Action Needed';
+        layerInterpSub = 'One or more metrics are below the expected level — review farm conditions';
     } else if (yels.length > 0) {
         setDiagnosis('layer', 'yellow', '🟡', 'Performance Watch', 'Some metrics off-target — monitor closely');
+        layerDiagStatus = 'yellow';
+        layerInterpLabel = '🟡 Performance Watch';
+        layerInterpSub = 'Some metrics are slightly off standard — continue monitoring over the coming days';
     } else {
         const msg = layingOnly ? 'Stable Production' : 'Stable Growth';
         setDiagnosis('layer', 'green', '✅', msg, 'Farm performing within normal range');
+        layerDiagStatus = 'green';
+        layerInterpLabel = layingOnly ? '✅ Stable Production' : '✅ Stable Growth';
+        layerInterpSub = 'Farm is performing within the normal range — keep up the current management';
     }
+    setInterpCard('layer', layerDiagStatus, layerInterpLabel, layerInterpSub);
 
     // Auto summary
     const sumEl = document.getElementById('layerSummary');
