@@ -875,6 +875,42 @@
         }
 
 
+/* ── PWA Install Banner (mobile only, JS-controlled) ── */
+.install-banner {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 14px 18px;
+    background: #1e3a7a;
+    color: #fff;
+    align-items: center;
+    gap: 11px;
+    z-index: 9999;
+    box-shadow: 0 -3px 18px rgba(0,0,0,0.22);
+}
+.install-banner.visible { display: flex; animation: installSlideUp 0.3s ease; }
+@keyframes installSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+.install-icon { font-size: 1.9em; flex-shrink: 0; line-height: 1; }
+.install-text { flex: 1; min-width: 0; }
+.install-title { font-size: 14px; font-weight: 800; line-height: 1.2; }
+.install-sub   { font-size: 11.5px; font-weight: 500; opacity: 0.82; margin-top: 2px; line-height: 1.4; }
+.install-cta {
+    padding: 9px 15px; border-radius: 9px; border: none;
+    background: #fff; color: #1e3a7a; font-size: 13px; font-weight: 800;
+    cursor: pointer; flex-shrink: 0; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+}
+.install-dismiss {
+    border: none; background: rgba(255,255,255,0.18); color: #fff;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
 </style>
 </head>
 <body>
@@ -10149,6 +10185,91 @@ window.onload=function(){
   ['ffs_kg','ffs_ame','syo_l','syo_ame','lip_ame','diet_basis','sa_lip','sb_lip','sc_lip','sc_syo_set'].forEach(setupCommaInput);
 };
 
+/* ── PWA Install Banner Logic ── */
+(function () {
+    const INSTALL_KEY = 'farmcheck.installDismissed';
+    let deferredPrompt = null;
+    let bannerShown = false;
+
+    function isMobileDevice() {
+        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    }
+    function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+               window.navigator.standalone === true;
+    }
+    function shouldShow() {
+        return !localStorage.getItem(INSTALL_KEY) && !isStandalone() && isMobileDevice();
+    }
+
+    function showBanner(iosMode) {
+        if (bannerShown || !shouldShow()) return;
+        bannerShown = true;
+        var banner = document.getElementById('installBanner');
+        if (!banner) return;
+        if (iosMode) {
+            var sub = document.getElementById('installSub');
+            if (sub) sub.textContent = 'Tap Share (⎙) → Add to Home Screen';
+            var btn = document.getElementById('installBtn');
+            if (btn) btn.style.display = 'none';
+        }
+        banner.classList.add('visible');
+    }
+
+    function hideBanner() {
+        try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
+        var banner = document.getElementById('installBanner');
+        if (banner) banner.classList.remove('visible');
+    }
+
+    // Android Chrome: capture native install prompt
+    window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        showBanner(false);
+    });
+
+    // iOS Safari: show manual tip after 6 seconds (no native prompt available)
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS && !isStandalone()) {
+        setTimeout(function () { showBanner(true); }, 6000);
+    }
+
+    // Install button: trigger native prompt (Android) or no-op (iOS)
+    var installBtn = document.getElementById('installBtn');
+    if (installBtn) {
+        installBtn.addEventListener('click', function () {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.catch(function(){}).finally(function(){
+                    deferredPrompt = null;
+                    hideBanner();
+                });
+            } else {
+                hideBanner();
+            }
+        });
+    }
+
+    // Dismiss button
+    var dismissBtn = document.getElementById('installDismiss');
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', hideBanner);
+    }
+})();
+
 </script>
+
+<!-- PWA Install Banner -->
+<div id="installBanner" class="install-banner">
+    <span class="install-icon">📲</span>
+    <div class="install-text">
+        <div class="install-title">Add to Home Screen</div>
+        <div class="install-sub" id="installSub">Quick access during farm visits</div>
+    </div>
+    <button class="install-cta" id="installBtn">Add</button>
+    <button class="install-dismiss" id="installDismiss" aria-label="Dismiss">✕</button>
+</div>
+
 </body>
 </html>
