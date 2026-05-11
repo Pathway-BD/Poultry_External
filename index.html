@@ -46,38 +46,67 @@
         .tab-label-short { display: none; }
         .tab-label-full { display: inline; }
         /* desktop: hide mobile-only blocks */
-        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary { display: none; }
+        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle { display: none; }
 
         /* ── Mobile (iPhone / narrow phones ≤ 600px) ── */
         @media (max-width: 600px) {
-            /* KPI Cards — Traffic Light */
-            .mobile-kpi-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
-            .kpi-card { padding: 10px 11px; border-radius: 10px; border: 1.5px solid #d9e1ee; background: #f7f9fc; position: relative; min-height: 78px; }
+            /* Diagnosis Banner — primary at-a-glance verdict */
+            .diagnosis-banner { display: flex; align-items: center; gap: 12px; padding: 16px 16px; margin: 8px 0 12px; border-radius: 14px; font-weight: 800; line-height: 1.2; border: 2px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+            .diagnosis-banner .diag-icon { font-size: 1.8em; line-height: 1; flex-shrink: 0; }
+            .diagnosis-banner .diag-text { flex: 1; min-width: 0; }
+            .diagnosis-banner .diag-label { font-size: 1.22em; }
+            .diagnosis-banner .diag-sub { font-size: 0.78em; font-weight: 600; opacity: 0.78; margin-top: 2px; }
+            .diagnosis-banner.green   { background: linear-gradient(135deg,#e8f7ed,#d6f1de); border-color: #4caf50; color: #14532d; }
+            .diagnosis-banner.yellow  { background: linear-gradient(135deg,#fff8e1,#ffeec2); border-color: #f9a825; color: #7a4500; }
+            .diagnosis-banner.red     { background: linear-gradient(135deg,#ffe9eb,#ffd5d8); border-color: #e53935; color: #8a1010; }
+            .diagnosis-banner.neutral { background: #f5f7fa; border-color: #cfd8dc; color: #5a6b85; }
+
+            /* KPI Cards — bigger, more breathable */
+            .mobile-kpi-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 4px; }
+            .kpi-card { padding: 14px 13px 12px; border-radius: 12px; border: 1.5px solid #d9e1ee; background: #f7f9fc; position: relative; min-height: 92px; }
             .kpi-card.green  { border-color: #4caf50; background: #e8f5e9; }
             .kpi-card.yellow { border-color: #f9a825; background: #fff8e1; }
             .kpi-card.red    { border-color: #e53935; background: #ffebee; }
             .kpi-card.empty  { border-color: #cfd8dc; background: #f5f7fa; }
-            .kpi-card .kpi-label { font-size: 11px; font-weight: 600; color: #5a6b85; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
-            .kpi-card .kpi-value { font-size: 1.35em; font-weight: 800; color: #1e3a7a; line-height: 1.1; }
+            .kpi-card .kpi-label { font-size: 10.5px; font-weight: 700; color: #5a6b85; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+            .kpi-card .kpi-value { font-size: 1.65em; font-weight: 800; color: #1e3a7a; line-height: 1.05; letter-spacing: -0.3px; }
             .kpi-card.green  .kpi-value { color: #1b5e20; }
             .kpi-card.yellow .kpi-value { color: #ef6c00; }
             .kpi-card.red    .kpi-value { color: #b71c1c; }
-            .kpi-card .kpi-diff  { font-size: 11.5px; font-weight: 600; margin-top: 3px; color: #5a6b85; }
-            .kpi-card .kpi-dot   { position: absolute; top: 8px; right: 9px; width: 10px; height: 10px; border-radius: 50%; background: #cfd8dc; }
+            .kpi-card .kpi-diff  { font-size: 11.5px; font-weight: 600; margin-top: 5px; color: #5a6b85; line-height: 1.3; }
+            .kpi-card .kpi-dot   { position: absolute; top: 10px; right: 10px; width: 11px; height: 11px; border-radius: 50%; background: #cfd8dc; }
             .kpi-card.green  .kpi-dot { background: #4caf50; }
             .kpi-card.yellow .kpi-dot { background: #f9a825; }
             .kpi-card.red    .kpi-dot { background: #e53935; }
             .kpi-card.wide { grid-column: 1 / span 2; }
 
-            /* Auto Summary */
-            .mobile-summary { display: block; padding: 10px 12px; margin: 8px 0 10px; border-left: 4px solid #1e3a7a; background: #eef3fb; border-radius: 6px; font-size: 13px; color: #1e3a7a; line-height: 1.45; }
+            /* Auto Summary — friendlier */
+            .mobile-summary { display: block; padding: 11px 14px; margin: 10px 0 4px; border-left: 4px solid #1e3a7a; background: #eef3fb; border-radius: 8px; font-size: 13.5px; color: #1e3a7a; line-height: 1.5; }
             .mobile-summary.empty { display: none; }
 
+            /* "+ Add More Data" toggle */
+            .mobile-more-toggle { display: block; width: 100%; padding: 10px 12px; margin: 6px 0; border: 1.5px dashed #b0bec5; background: #fafbfd; color: #455a64; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; text-align: center; }
+            .mobile-more-toggle:active { background: #eef3fb; }
+            .mobile-more-block { display: none; }
+            .mobile-more-block.expanded { display: block; }
+
             /* Action buttons */
-            .mobile-actions { display: flex; gap: 8px; margin: 10px 0; }
-            .mobile-actions button { flex: 1; padding: 12px 10px; border-radius: 8px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; }
+            .mobile-actions { display: flex; gap: 8px; margin: 10px 0 6px; }
+            .mobile-actions button { flex: 1; padding: 13px 10px; border-radius: 10px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; }
             .btn-wa { background: #25d366; color: #fff; }
             .btn-details { background: #fff; color: #1e3a7a; border: 1.5px solid #1e3a7a !important; }
+
+            /* Larger, friendlier inputs */
+            .mobile-bwg-wrap .field-box label { font-size: 12px; font-weight: 700; color: #455a64; }
+            .mobile-bwg-wrap .field-box input { font-size: 18px !important; font-weight: 700 !important; padding: 12px 10px !important; }
+
+            /* Section headers on mobile */
+            #tab0 .input-group h3,
+            #tab1 .input-group h3 { font-size: 13px; font-weight: 700; color: #1e3a7a; margin-bottom: 8px; letter-spacing: 0.2px; }
+
+            /* Progressive input: hide layer-secondary fields by default on mobile */
+            .layer-secondary { display: none !important; }
+            .input-group.layer-more-expanded .layer-secondary { display: block !important; }
 
             /* Collapsible details (table + chart) */
             .details-block.collapsed { display: none !important; }
@@ -794,6 +823,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div id="tab0" class="tab-content active">
         <h2>Broiler Performance</h2>
+        <!-- Mobile-only: Diagnosis Banner -->
+        <div class="diagnosis-banner neutral" id="broilerDiagnosis">
+            <span class="diag-icon">⚪</span>
+            <div class="diag-text">
+                <div class="diag-label" id="broilerDiagLabel">Enter data to begin</div>
+                <div class="diag-sub" id="broilerDiagSub">Quick check in 10 seconds</div>
+            </div>
+        </div>
         <div class="input-group">
             <h3>Setting</h3>
             <div class="data-grid">
@@ -811,18 +848,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
         <div class="input-group">
-            <h3>My data</h3>
-            <!-- Mobile-only: BWG + FCR quick input -->
+            <h3>Check Current Performance</h3>
+            <!-- Mobile-only: BW first, FCR progressive -->
             <div class="mobile-bwg-wrap">
                 <div class="field-box">
-                    <label>BW (g):</label>
+                    <label>Body Weight (g):</label>
                     <input type="text" inputmode="decimal" id="mobileBWG" oninput="formatNum(this); broilerMobileCalc()">
                 </div>
-                <div class="field-box">
+                <div class="field-box mobile-more-block" id="mobileFcrBox">
                     <label>FCR:</label>
                     <input type="text" inputmode="decimal" id="mobileFCR" oninput="formatNum(this); broilerMobileCalc()">
                 </div>
             </div>
+            <button type="button" class="mobile-more-toggle" id="broilerMoreBtn" onclick="toggleMore('mobileFcrBox', this)">+ Add FCR Data</button>
             <!-- Full data grid (desktop) -->
             <div class="data-grid broiler-full-data">
                 <div class="field-box"><label>Initial Weight (g):</label><input type="text" inputmode="decimal" id="myInitialWeight" oninput="formatNum(this); updateData()"></div>
@@ -876,6 +914,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div id="tab1" class="tab-content">
         <h2>Layer Performance</h2>
+        <!-- Mobile-only: Diagnosis Banner -->
+        <div class="diagnosis-banner neutral" id="layerDiagnosis">
+            <span class="diag-icon">⚪</span>
+            <div class="diag-text">
+                <div class="diag-label" id="layerDiagLabel">Enter data to begin</div>
+                <div class="diag-sub" id="layerDiagSub">Analyze farm status in seconds</div>
+            </div>
+        </div>
         <div class="layer-inputs-row">
             <div class="input-group">
                 <h3>Setting</h3>
@@ -907,16 +953,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
             <div class="input-group">
-                <h3>My data <small style="font-weight:normal; color:#888;">(leave blank if not measured)</small></h3>
+                <h3>Analyze Farm Status <small style="font-weight:normal; color:#888;">(leave blank if not measured)</small></h3>
                 <!-- 2 × 3 uniform grid -->
                 <div class="mydata-grid">
                     <div class="field-box layer-laying-only"><label>Egg Production (%):</label><input type="text" inputmode="decimal" id="layerMyLayRate" oninput="formatNum(this); layerUpdateData()"><span class="layrate-warning" id="layerLayRateWarn">⚠️ 100% 초과 — 측정값 확인이 필요합니다</span></div>
-                    <div class="field-box layer-laying-only"><label>Egg Weight (g):</label><input type="text" inputmode="decimal" id="layerMyEggWeight" oninput="formatNum(this); layerUpdateData()"></div>
+                    <div class="field-box layer-laying-only layer-secondary"><label>Egg Weight (g):</label><input type="text" inputmode="decimal" id="layerMyEggWeight" oninput="formatNum(this); layerUpdateData()"></div>
                     <div class="field-box"><label>Body Weight (g):</label><input type="text" inputmode="decimal" id="layerMyBodyWeight" oninput="formatNum(this); layerUpdateData()"></div>
-                    <div class="field-box layer-laying-only"><label>Livability (%):</label><input type="text" inputmode="decimal" id="layerMyLivability" oninput="formatNum(this); layerUpdateData()"></div>
-                    <div class="field-box"><label>Feed Intake (g/day):</label><input type="text" inputmode="decimal" id="layerMyFeedIntake" oninput="formatNum(this); layerUpdateData()"></div>
-                    <div class="field-box layer-rearing-only" style="display:none;"><label>Cum. Feed Intake (g):</label><input type="text" inputmode="decimal" id="layerMyCumFeed" oninput="formatNum(this); layerUpdateData()"></div>
+                    <div class="field-box layer-laying-only layer-secondary"><label>Livability (%):</label><input type="text" inputmode="decimal" id="layerMyLivability" oninput="formatNum(this); layerUpdateData()"></div>
+                    <div class="field-box layer-secondary"><label>Feed Intake (g/day):</label><input type="text" inputmode="decimal" id="layerMyFeedIntake" oninput="formatNum(this); layerUpdateData()"></div>
+                    <div class="field-box layer-rearing-only layer-secondary" style="display:none;"><label>Cum. Feed Intake (g):</label><input type="text" inputmode="decimal" id="layerMyCumFeed" oninput="formatNum(this); layerUpdateData()"></div>
                 </div>
+                <button type="button" class="mobile-more-toggle" id="layerMoreBtn" onclick="toggleLayerMore(this)">+ Add More Data (Egg Weight, Intake, Livability)</button>
                 <!-- Text-only auto-calc line (no box) -->
                 <div class="mydata-calc-line layer-laying-only">
                     <span class="calc-text-item empty" id="layerCtEggMass">
@@ -9259,6 +9306,33 @@ function setKpi(cardId, valEl, diffEl, status, valueStr, diffStr) {
     document.getElementById(diffEl).textContent = diffStr;
 }
 
+// Set diagnosis banner state
+function setDiagnosis(prefix, status, icon, label, sub) {
+    const banner = document.getElementById(prefix + 'Diagnosis');
+    if (!banner) return;
+    banner.classList.remove('green', 'yellow', 'red', 'neutral');
+    banner.classList.add(status);
+    banner.querySelector('.diag-icon').textContent = icon;
+    document.getElementById(prefix + 'DiagLabel').textContent = label;
+    document.getElementById(prefix + 'DiagSub').textContent = sub;
+}
+
+// "+ Add More" toggle for broiler FCR field
+function toggleMore(boxId, btn) {
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    const expanded = box.classList.toggle('expanded');
+    if (btn) btn.style.display = expanded ? 'none' : '';
+}
+
+// "+ Add More Data" toggle for layer secondary inputs
+function toggleLayerMore(btn) {
+    const group = btn.closest('.input-group');
+    if (!group) return;
+    group.classList.add('layer-more-expanded');
+    btn.style.display = 'none';
+}
+
 // Broiler KPI update — called from updateData()
 function updateBroilerKpis() {
     const breed = document.getElementById('breed').value;
@@ -9304,24 +9378,46 @@ function updateBroilerKpis() {
         setKpi('kpiIntake', 'kpiIntakeVal', 'kpiIntakeDiff', 'empty', '—', 'Auto-calc from BW × FCR');
     }
 
-    // Auto summary
+    // Compute statuses for diagnosis
+    const bwStatus  = (myW > 0 && std.weight)    ? trafficLight(myW, std.weight, 3, 8, false)   : 'empty';
+    const fcrStatus = (myFcr > 0 && std.fcr)     ? trafficLight(myFcr, std.fcr, 3, 6, true)     : 'empty';
+    const ciStatus  = (myCI > 0 && std.cumIntake)? trafficLight(myCI, std.cumIntake, 5, 10, false) : 'empty';
+
+    // Diagnosis banner — primary verdict
+    if (bwStatus === 'empty') {
+        setDiagnosis('broiler', 'neutral', '⚪', 'Enter Body Weight to begin', 'Quick check in 10 seconds');
+    } else if (bwStatus === 'red' && fcrStatus === 'red') {
+        setDiagnosis('broiler', 'red', '🚨', 'Multiple Risks Detected', 'Both growth and feed efficiency below standard');
+    } else if (bwStatus === 'red') {
+        setDiagnosis('broiler', 'red', '🔴', 'Growth Delay Detected', 'Body weight significantly below standard');
+    } else if (fcrStatus === 'red') {
+        setDiagnosis('broiler', 'red', '🔴', 'FCR Risk', 'Feed conversion worse than expected');
+    } else if (bwStatus === 'yellow' || fcrStatus === 'yellow' || ciStatus === 'red') {
+        setDiagnosis('broiler', 'yellow', '🟡', 'Performance Watch', 'Some metrics off-target — monitor closely');
+    } else if (bwStatus === 'green' && fcrStatus === 'green') {
+        setDiagnosis('broiler', 'green', '✅', 'Good Feed Efficiency', 'Growth and FCR both on target');
+    } else {
+        setDiagnosis('broiler', 'green', '✅', 'Stable Performance', 'Farm performing within normal range');
+    }
+
+    // Auto summary — short, advisor tone
     const sumEl = document.getElementById('broilerSummary');
     const parts = [];
-    if (myW > 0 && std.weight) {
+    if (bwStatus === 'green')      parts.push('Body weight on target');
+    else if (bwStatus === 'yellow') {
         const pct = ((myW - std.weight) / std.weight) * 100;
-        const dir = pct >= 0 ? 'above' : 'below';
-        parts.push(`BW ${Math.abs(pct).toFixed(1)}% ${dir} standard`);
+        parts.push('BW ' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '% vs standard');
     }
-    if (myFcr > 0 && std.fcr) {
-        const d = myFcr - std.fcr;
-        if (Math.abs(d) < 0.05) parts.push('FCR on target');
-        else if (d > 0.1) parts.push('⚠ FCR worse than standard');
-        else parts.push(d > 0 ? 'FCR slightly above standard' : 'FCR better than standard');
+    else if (bwStatus === 'red') {
+        const pct = ((myW - std.weight) / std.weight) * 100;
+        parts.push('⚠ BW ' + Math.abs(pct).toFixed(1) + '% ' + (pct < 0 ? 'below' : 'above') + ' standard');
     }
-    if (myCI > 0 && std.cumIntake) {
+    if (fcrStatus === 'green')      parts.push('Feed efficiency optimal');
+    else if (fcrStatus === 'yellow') parts.push('FCR slightly off standard');
+    else if (fcrStatus === 'red')    parts.push('⚠ FCR significantly worse than expected');
+    if (ciStatus === 'red') {
         const p = ((myCI - std.cumIntake) / std.cumIntake) * 100;
-        if (p < -10) parts.push('⚠ Feed intake below expected — check feeders');
-        else if (p > 10) parts.push('⚠ Feed intake higher than expected');
+        parts.push(p < 0 ? '⚠ Feed intake low — check feeders' : '⚠ Feed intake higher than expected');
     }
     if (parts.length === 0) {
         sumEl.classList.add('empty');
@@ -9393,22 +9489,53 @@ function updateLayerKpis() {
         setKpi('kpiLayFI', 'kpiLayFIVal', 'kpiLayFIDiff', 'empty', '—', 'Enter g/day');
     }
 
+    // Compute statuses for diagnosis
+    const layStatus = (layingOnly && myLay > 0 && std.layRate) ? trafficLight(myLay, std.layRate, 2, 5, false) : 'empty';
+    const bwStatus  = (myBW > 0 && std.bodyWeight)  ? trafficLight(myBW, std.bodyWeight, 3, 8, false) : 'empty';
+    const fiStatus  = (myFI > 0 && std.feedIntake)  ? trafficLight(myFI, std.feedIntake, 5, 10, false) : 'empty';
+    const ewStatus  = (layingOnly && myEW > 0 && std.eggWeight) ? trafficLight(myEW, std.eggWeight, 3, 6, false) : 'empty';
+
+    // Diagnosis banner
+    const anyData = (layStatus !== 'empty' || bwStatus !== 'empty' || fiStatus !== 'empty' || ewStatus !== 'empty');
+    const reds = [layStatus, bwStatus, fiStatus, ewStatus].filter(s => s === 'red');
+    const yels = [layStatus, bwStatus, fiStatus, ewStatus].filter(s => s === 'yellow');
+
+    if (!anyData) {
+        const cue = layingOnly ? 'Enter Egg Production %' : 'Enter Body Weight';
+        setDiagnosis('layer', 'neutral', '⚪', cue + ' to begin', 'Analyze farm status in seconds');
+    } else if (layStatus === 'red') {
+        setDiagnosis('layer', 'red', '🔴', 'Production Drop Detected', 'Egg production below standard');
+    } else if (bwStatus === 'red') {
+        setDiagnosis('layer', 'red', '🔴', 'Body Weight Concern', 'BW significantly off standard');
+    } else if (fiStatus === 'red') {
+        setDiagnosis('layer', 'red', '🔴', 'Feed Intake Risk', 'Feed intake outside expected range');
+    } else if (reds.length > 0) {
+        setDiagnosis('layer', 'red', '🔴', 'Action Needed', 'Performance below expected level');
+    } else if (yels.length > 0) {
+        setDiagnosis('layer', 'yellow', '🟡', 'Performance Watch', 'Some metrics off-target — monitor closely');
+    } else {
+        const msg = layingOnly ? 'Stable Production' : 'Stable Growth';
+        setDiagnosis('layer', 'green', '✅', msg, 'Farm performing within normal range');
+    }
+
     // Auto summary
     const sumEl = document.getElementById('layerSummary');
     const parts = [];
-    if (layingOnly && myLay > 0 && std.layRate) {
+    if (layStatus === 'green')       parts.push('Egg production on target');
+    else if (layStatus === 'yellow') parts.push('Egg production slightly off standard');
+    else if (layStatus === 'red') {
         const d = myLay - std.layRate;
-        if (Math.abs(d) < 1) parts.push('Egg production on target');
-        else parts.push('Egg production ' + (d > 0 ? '+' : '') + d.toFixed(1) + '%p vs standard');
+        parts.push('⚠ Egg production ' + (d >= 0 ? '+' : '') + d.toFixed(1) + '%p vs standard');
     }
-    if (myBW > 0 && std.bodyWeight) {
+    if (bwStatus === 'red') {
         const p = ((myBW - std.bodyWeight) / std.bodyWeight) * 100;
-        if (Math.abs(p) > 8) parts.push('⚠ BW deviation ' + p.toFixed(1) + '%');
+        parts.push('⚠ BW ' + (p >= 0 ? '+' : '') + p.toFixed(1) + '% vs standard');
+    } else if (bwStatus === 'green' && layStatus === 'empty') {
+        parts.push('Body weight on target');
     }
-    if (myFI > 0 && std.feedIntake) {
+    if (fiStatus === 'red') {
         const p = ((myFI - std.feedIntake) / std.feedIntake) * 100;
-        if (p < -10) parts.push('⚠ Feed intake below expected');
-        else if (p > 10) parts.push('⚠ Feed intake above expected');
+        parts.push(p < 0 ? '⚠ Feed intake below expected' : '⚠ Feed intake above expected');
     }
     if (parts.length === 0) {
         sumEl.classList.add('empty');
@@ -9448,7 +9575,8 @@ function shareWhatsApp(type) {
         const myFcr = parseFloat(document.getElementById('myFcr').value) || 0;
         const myCI = getVal('myCumIntake', 0);
         const std = (data[document.getElementById('breed').value] && data[document.getElementById('breed').value][parseInt(age) || 0]) || {};
-        text = `📊 FARM-Check | ${breed} | ${age} days\n\n`;
+        const diag = document.getElementById('broilerDiagLabel').textContent;
+        text = `📊 FARM-Check | ${breed} | ${age} days\n\n*${diag}*\n\n`;
         if (myW > 0) text += `🐔 BW: ${Math.round(myW).toLocaleString()}g` + (std.weight ? ` (${myW >= std.weight ? '+' : ''}${(((myW - std.weight) / std.weight) * 100).toFixed(1)}% vs Std)` : '') + `\n`;
         if (myFcr > 0) text += `📉 FCR: ${myFcr.toFixed(2)}` + (std.fcr ? ` (Std ${std.fcr.toFixed(2)})` : '') + `\n`;
         if (myCI > 0) text += `🌾 Cum. Intake: ${Math.round(myCI).toLocaleString()}g\n`;
@@ -9464,7 +9592,8 @@ function shareWhatsApp(type) {
         const myEW = getVal('layerMyEggWeight', 0);
         const myBW = getVal('layerMyBodyWeight', 0);
         const myFI = getVal('layerMyFeedIntake', 0);
-        text = `📊 FARM-Check | ${breed} | ${age} wk (${phase === 'laying' ? 'Laying' : 'Rearing'})\n\n`;
+        const diag = document.getElementById('layerDiagLabel').textContent;
+        text = `📊 FARM-Check | ${breed} | ${age} wk (${phase === 'laying' ? 'Laying' : 'Rearing'})\n\n*${diag}*\n\n`;
         if (myLay > 0) text += `🥚 Egg Prod.: ${myLay.toFixed(1)}%\n`;
         if (myEW > 0) text += `⚖ Egg Weight: ${myEW.toFixed(1)}g\n`;
         if (myBW > 0) text += `🐔 Body Weight: ${Math.round(myBW).toLocaleString()}g\n`;
@@ -9530,6 +9659,25 @@ function initDemoData() {
         const ageEl = document.getElementById('age'); if (ageEl) ageEl.value = 28;
         const bwEl  = document.getElementById('mobileBWG'); if (bwEl) bwEl.value = '1,500';
         const fcrEl = document.getElementById('mobileFCR'); if (fcrEl) fcrEl.value = '1.55';
+    }
+    // Auto-expand FCR field if it has a value
+    const fcrVal = (document.getElementById('mobileFCR') || {}).value;
+    if (fcrVal && fcrVal.trim() !== '') {
+        const box = document.getElementById('mobileFcrBox');
+        const btn = document.getElementById('broilerMoreBtn');
+        if (box) box.classList.add('expanded');
+        if (btn) btn.style.display = 'none';
+    }
+    // Auto-expand layer secondary fields if any has a value
+    const laySecIds = ['layerMyEggWeight','layerMyLivability','layerMyFeedIntake','layerMyCumFeed'];
+    const hasLaySec = laySecIds.some(id => { const e = document.getElementById(id); return e && e.value && e.value.trim() !== ''; });
+    if (hasLaySec) {
+        const layMoreBtn = document.getElementById('layerMoreBtn');
+        if (layMoreBtn) {
+            const grp = layMoreBtn.closest('.input-group');
+            if (grp) grp.classList.add('layer-more-expanded');
+            layMoreBtn.style.display = 'none';
+        }
     }
     // Wire up auto-save on input
     ['breed','age','mobileBWG','mobileFCR','layerBreed','layerPhase','layerAge','layerMyLayRate','layerMyEggWeight','layerMyBodyWeight','layerMyFeedIntake'].forEach(id => {
