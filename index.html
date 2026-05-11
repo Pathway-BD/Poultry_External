@@ -611,7 +611,7 @@
 /* Layer sheet styles */
 /* Hisex Layer Sheet — 3-column: Setting + My data + Scenario in ONE row */
         /* 3-column row: Setting | My data | Scenario — fixed width, centered */
-        .layer-inputs-row { display: grid; grid-template-columns: 280px 320px 420px; gap: 12px; align-items: stretch; max-width: 1080px; margin: 0 auto 12px; }
+        .layer-inputs-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.5fr); gap: 10px; align-items: stretch; max-width: 1080px; margin: 0 auto 12px; }
         .layer-inputs-row .input-group { margin-bottom: 0; padding: 12px 15px; }
         .layer-inputs-row .input-group h3 { font-size: 1em; margin-bottom: 8px; padding-bottom: 4px; }
         .layer-inputs-row label { font-size: 0.78em; margin-bottom: 3px; }
@@ -674,15 +674,29 @@
         .scenario-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: #b0b8cc; font-size: 0.8em; font-style: italic; text-align: center; padding: 8px; }
 
         @media (max-width: 1100px) {
-            .layer-inputs-row { grid-template-columns: 260px 1fr; max-width: 100%; }
-            .layer-inputs-row > :nth-child(3) { grid-column: 1 / -1; }
-            .scenario-inner { grid-template-columns: 1fr 1.6fr; }
+            .layer-inputs-row { max-width: 100%; }
             .main-content { max-width: 100%; }
             #tab1 { max-width: 100%; }
         }
-        @media (max-width: 768px) {
-            .layer-inputs-row { grid-template-columns: 1fr; }
-            .layer-inputs-row > :nth-child(3) { grid-column: auto; }
+        /* iPad portrait and narrow tablets: keep 3 columns, compact sizing */
+        @media (max-width: 900px) {
+            .layer-inputs-row { gap: 6px; }
+            .layer-inputs-row .input-group { padding: 8px 10px; }
+            .layer-inputs-row label { font-size: 0.72em; }
+            .layer-inputs-row input[type="text"],
+            .layer-inputs-row input[type="number"],
+            .layer-inputs-row select { padding: 4px 6px; font-size: 0.82em; }
+            .scenario-box { padding: 8px 10px; }
+            .scenario-box h4 { font-size: 0.78em; }
+            .scenario-inner { grid-template-columns: 1fr 1.6fr; gap: 6px; }
+            .scenario-summary-card { padding: 6px 8px; }
+            .scenario-summary-card .sc-val { font-size: 1.1em; }
+            .scenario-week-row { padding: 5px 7px; }
+            .mydata-grid { gap: 5px; }
+        }
+        /* Phones: single column */
+        @media (max-width: 600px) {
+            .layer-inputs-row { grid-template-columns: 1fr; gap: 8px; }
             .mydata-grid { grid-template-columns: repeat(2, 1fr); }
             .chart-block-body { height: 220px; }
             .scenario-inner { grid-template-columns: 1fr; }
