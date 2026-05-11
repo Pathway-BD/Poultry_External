@@ -46,7 +46,8 @@
         .tab-label-short { display: none; }
         .tab-label-full { display: inline; }
         /* desktop: hide mobile-only blocks */
-        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle { display: none; }
+        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle, .future-outlook, .title-mobile { display: none; }
+        .title-desktop { display: inline; }
 
         /* ── Mobile (iPhone / narrow phones ≤ 600px) ── */
         @media (max-width: 600px) {
@@ -104,9 +105,42 @@
             #tab0 .input-group h3,
             #tab1 .input-group h3 { font-size: 13px; font-weight: 700; color: #1e3a7a; margin-bottom: 8px; letter-spacing: 0.2px; }
 
+            /* Mobile-only mode titles */
+            .title-desktop { display: none; }
+            .title-mobile { display: inline; }
+            #tab0 h2, #tab1 h2 { font-size: 1.05em; color: #1e3a7a; margin: 4px 0 8px; }
+
             /* Progressive input: hide layer-secondary fields by default on mobile */
             .layer-secondary { display: none !important; }
             .input-group.layer-more-expanded .layer-secondary { display: block !important; }
+
+            /* Hide complex scenario inner on mobile — replaced by future-outlook */
+            #tab1 .scenario-inner,
+            #tab1 .scenario-empty,
+            #tab1 .scenario-note,
+            #tab1 #layerScenarioBox h4 { display: none !important; }
+            #tab1 #layerScenarioBox { padding: 0; background: transparent; border: none; box-shadow: none; margin: 0; }
+
+            /* Future Performance Outlook card */
+            .future-outlook { display: block; padding: 14px 14px 12px; border-radius: 12px; border: 1.5px solid #d9e1ee; background: #f7f9fc; margin: 10px 0 6px; }
+            .future-outlook.green   { background: #e8f7ed; border-color: #4caf50; }
+            .future-outlook.yellow  { background: #fff8e1; border-color: #f9a825; }
+            .future-outlook.red     { background: #ffe9eb; border-color: #e53935; }
+            .future-outlook.neutral { background: #f5f7fa; border-color: #cfd8dc; }
+            .future-outlook .fo-title { font-size: 11px; font-weight: 700; color: #5a6b85; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+            .future-outlook .fo-status { font-size: 13.5px; font-weight: 700; color: #1e3a7a; line-height: 1.35; margin-bottom: 10px; }
+            .future-outlook.green   .fo-status { color: #14532d; }
+            .future-outlook.yellow  .fo-status { color: #7a4500; }
+            .future-outlook.red     .fo-status { color: #8a1010; }
+            .future-outlook .fo-rows { display: flex; flex-direction: column; gap: 6px; }
+            .future-outlook .fo-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; padding: 6px 10px; background: rgba(255,255,255,0.55); border-radius: 7px; }
+            .future-outlook .fo-row.past { opacity: 0.45; }
+            .future-outlook .fo-wk { font-weight: 700; color: #455a64; }
+            .future-outlook .fo-arrow { color: #90a4ae; font-weight: 600; }
+            .future-outlook .fo-val { font-weight: 800; font-size: 1.05em; color: #1e3a7a; }
+            .future-outlook.green  .fo-val { color: #1b5e20; }
+            .future-outlook.yellow .fo-val { color: #ef6c00; }
+            .future-outlook.red    .fo-val { color: #b71c1c; }
 
             /* Collapsible details (table + chart) */
             .details-block.collapsed { display: none !important; }
@@ -822,7 +856,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div id="tab0" class="tab-content active">
-        <h2>Broiler Performance</h2>
+        <h2><span class="title-desktop">Broiler Performance</span><span class="title-mobile">⚡ Quick Broiler Check</span></h2>
         <!-- Mobile-only: Diagnosis Banner -->
         <div class="diagnosis-banner neutral" id="broilerDiagnosis">
             <span class="diag-icon">⚪</span>
@@ -913,7 +947,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <div id="tab1" class="tab-content">
-        <h2>Layer Performance</h2>
+        <h2><span class="title-desktop">Layer Performance</span><span class="title-mobile">⚡ Quick Layer Check</span></h2>
         <!-- Mobile-only: Diagnosis Banner -->
         <div class="diagnosis-banner neutral" id="layerDiagnosis">
             <span class="diag-icon">⚪</span>
@@ -958,12 +992,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="mydata-grid">
                     <div class="field-box layer-laying-only"><label>Egg Production (%):</label><input type="text" inputmode="decimal" id="layerMyLayRate" oninput="formatNum(this); layerUpdateData()"><span class="layrate-warning" id="layerLayRateWarn">⚠️ 100% 초과 — 측정값 확인이 필요합니다</span></div>
                     <div class="field-box layer-laying-only layer-secondary"><label>Egg Weight (g):</label><input type="text" inputmode="decimal" id="layerMyEggWeight" oninput="formatNum(this); layerUpdateData()"></div>
-                    <div class="field-box"><label>Body Weight (g):</label><input type="text" inputmode="decimal" id="layerMyBodyWeight" oninput="formatNum(this); layerUpdateData()"></div>
+                    <div class="field-box layer-secondary layer-bw-field"><label>Body Weight (g):</label><input type="text" inputmode="decimal" id="layerMyBodyWeight" oninput="formatNum(this); layerUpdateData()"></div>
                     <div class="field-box layer-laying-only layer-secondary"><label>Livability (%):</label><input type="text" inputmode="decimal" id="layerMyLivability" oninput="formatNum(this); layerUpdateData()"></div>
                     <div class="field-box layer-secondary"><label>Feed Intake (g/day):</label><input type="text" inputmode="decimal" id="layerMyFeedIntake" oninput="formatNum(this); layerUpdateData()"></div>
                     <div class="field-box layer-rearing-only layer-secondary" style="display:none;"><label>Cum. Feed Intake (g):</label><input type="text" inputmode="decimal" id="layerMyCumFeed" oninput="formatNum(this); layerUpdateData()"></div>
                 </div>
-                <button type="button" class="mobile-more-toggle" id="layerMoreBtn" onclick="toggleLayerMore(this)">+ Add More Data (Egg Weight, Intake, Livability)</button>
+                <button type="button" class="mobile-more-toggle" id="layerMoreBtn" onclick="toggleLayerMore(this)">+ Optional Data (BW, Egg Weight, Intake, Livability)</button>
                 <!-- Text-only auto-calc line (no box) -->
                 <div class="mydata-calc-line layer-laying-only">
                     <span class="calc-text-item empty" id="layerCtEggMass">
@@ -1023,6 +1057,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
                 <div class="scenario-empty" id="layerScenarioEmpty" style="display:none;">Enter <strong>Egg Production %</strong> to see projection</div>
                 <p class="scenario-note">* Gap (actual − standard) applied constant to standard curve.</p>
+                <!-- Mobile-only: Future Performance Outlook -->
+                <div class="future-outlook neutral" id="layerFutureOutlook">
+                    <div class="fo-title">Future Performance Outlook</div>
+                    <div class="fo-status" id="layerFoStatus">Enter Egg Production % to see projection</div>
+                    <div class="fo-rows" id="layerFoRows"></div>
+                </div>
             </div>
         </div>
 
@@ -8664,13 +8704,22 @@ function layerSyncPhaseAge() {
     }
     document.querySelectorAll('#tab1 .layer-rearing-only').forEach(el => el.style.display = (phase === 'rearing') ? '' : 'none');
     document.querySelectorAll('#tab1 .layer-laying-only').forEach(el  => {
-        /* scenarioBox visibility is controlled by updateData based on user input */
         if (el.id !== 'scenarioBox') {
             el.style.display = (phase === 'laying') ? '' : 'none';
         } else if (phase === 'rearing') {
             el.style.display = 'none';
         }
     });
+    /* In rearing, auto-expand Optional Data so BW + Feed are immediately accessible */
+    const moreBtn = document.getElementById('layerMoreBtn');
+    if (moreBtn) {
+        const grp = moreBtn.closest('.input-group');
+        if (phase === 'rearing') {
+            if (grp) grp.classList.add('layer-more-expanded');
+            moreBtn.style.display = 'none';
+        }
+        /* In laying, don't auto-collapse — respect user's prior choice */
+    }
 }
 
 function layerUpdateData() {
@@ -8877,9 +8926,44 @@ function layerUpdateData() {
             setRow('layerSwRow60',  'layerSw60Std', 'layerSw60Proj', 60);
             setRow('layerSwRow80',  'layerSw80Std', 'layerSw80Proj', 80);
             setRow('layerSwRow100', 'layerSw100Std','layerSw100Proj',100);
+
+            /* Mobile-only: Future Performance Outlook card */
+            const outlook = document.getElementById('layerFutureOutlook');
+            const foStatus = document.getElementById('layerFoStatus');
+            const foRows = document.getElementById('layerFoRows');
+            if (outlook && foStatus && foRows) {
+                outlook.classList.remove('green', 'yellow', 'red', 'neutral');
+                let status = 'green', msg = '';
+                if (avgGap >= 0)            { status = 'green';  msg = '✅ On track — projection at or above standard'; }
+                else if (avgGap >= -2)      { status = 'yellow'; msg = '🟡 Slight gap — monitor peak persistence'; }
+                else if (avgGap >= -5)      { status = 'yellow'; msg = '⚠ Current trend may reduce peak persistence'; }
+                else                        { status = 'red';    msg = '🔴 Significant gap — review feeding & health'; }
+                outlook.classList.add(status);
+                foStatus.textContent = msg;
+
+                const milestones = [40, 60, 80, 100];
+                foRows.innerHTML = milestones.map(wk => {
+                    const stdW = layerData[breed].laying[wk] && layerData[breed].laying[wk].layRate;
+                    if (stdW === undefined) return '';
+                    if (wk <= age) {
+                        return `<div class="fo-row past"><span class="fo-wk">${wk} wk</span><span class="fo-arrow">past</span><span class="fo-val">—</span></div>`;
+                    }
+                    const proj = Math.max(0, Math.min(100, stdW + avgGap));
+                    return `<div class="fo-row"><span class="fo-wk">${wk} wk</span><span class="fo-arrow">→</span><span class="fo-val">${proj.toFixed(1)}%</span></div>`;
+                }).join('');
+            }
         } else {
             scenarioInner.style.display = 'none';
             scenarioEmpty.style.display  = '';
+            const outlook = document.getElementById('layerFutureOutlook');
+            const foStatus = document.getElementById('layerFoStatus');
+            const foRows = document.getElementById('layerFoRows');
+            if (outlook && foStatus && foRows) {
+                outlook.classList.remove('green', 'yellow', 'red');
+                outlook.classList.add('neutral');
+                foStatus.textContent = 'Enter Egg Production % to see projection';
+                foRows.innerHTML = '';
+            }
         }
     }
 
