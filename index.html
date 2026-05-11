@@ -56,8 +56,9 @@
             /* Header: logo stays, version wraps cleanly */
             .container > div:first-child { flex-wrap: wrap; gap: 8px; }
 
-            /* Title: single line */
-            .app-title { font-size: 1.05em !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            /* Title: shrink to fit one line */
+            .app-title-wrap { max-width: 55% !important; }
+            .app-title { font-size: 0.88em !important; line-height: 1.2 !important; word-break: keep-all; }
 
             /* 탭바: 드롭다운 대신 버튼 2개 */
             .tab-bar { display: flex !important; gap: 0; margin-bottom: 10px; border-bottom: none; }
@@ -740,7 +741,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="container">
     <!-- Header: title + Pathway logo + version -->
     <div class="app-header" style="display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:10px; padding:10px 8px 18px; border-bottom:2px solid #e4ecf7; position:relative; min-height:86px;">
-        <div style="min-width:0; max-width:calc(100% - 280px); flex:1 1 auto; padding-top:0; text-align:left;">
+        <div class="app-title-wrap" style="min-width:0; max-width:calc(100% - 280px); flex:1 1 auto; padding-top:0; text-align:left;">
             <div class="app-title" style="font-size:1.78em; font-weight:850; color:#163452; letter-spacing:0.15px; line-height:1.12;">FARM-Check</div>
         </div>
         <div style="display:flex; align-items:flex-start; justify-content:flex-end; flex:0 0 auto;">
@@ -783,7 +784,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <!-- Mobile-only: BWG + FCR quick input -->
             <div class="mobile-bwg-wrap">
                 <div class="field-box">
-                    <label>BWG (g/day):</label>
+                    <label>BW (g):</label>
                     <input type="text" inputmode="decimal" id="mobileBWG" oninput="formatNum(this); broilerMobileCalc()">
                 </div>
                 <div class="field-box">
@@ -9062,20 +9063,22 @@ function initChart() {
 }
 
 function broilerMobileCalc() {
-    const bwg = getVal('mobileBWG', 0);
+    const bw  = getVal('mobileBWG', 0);  // BW = actual body weight (g)
     const fcr = getVal('mobileFCR', 0);
     const age = parseInt(document.getElementById('age').value) || 0;
-    if (bwg > 0 && age > 0) {
-        const cumGain = bwg * age;
-        const cumIntake = fcr > 0 ? fcr * cumGain : 0;
+    if (bw > 0 && age > 0) {
         const breed = document.getElementById('breed').value;
-        const initWt = (data[breed] && data[breed][0] && data[breed][0].weight) || 0;
-        document.getElementById('myAvgDailyGain').value = bwg.toFixed(1);
-        document.getElementById('myDailyGain').value = bwg.toFixed(1);
-        document.getElementById('myDailyIntake').value = fcr > 0 ? (fcr * bwg).toFixed(1) : '';
-        document.getElementById('myCumIntake').value = cumIntake > 0 ? Math.round(cumIntake) : '';
-        document.getElementById('myInitialWeight').value = initWt > 0 ? initWt.toFixed(0) : '';
-        document.getElementById('myWeight').value = ((initWt || 0) + cumGain).toFixed(0);
+        const initWt   = (data[breed] && data[breed][0] && data[breed][0].weight) || 0;
+        const netGain  = bw - initWt;                          // total weight gain
+        const cumIntake  = (fcr > 0 && netGain > 0) ? fcr * netGain : 0;
+        const avgDailyGain = netGain > 0 ? netGain / age : 0;
+        const dailyIntake  = cumIntake > 0 ? cumIntake / age : 0;
+        document.getElementById('myWeight').value        = Math.round(bw);
+        document.getElementById('myInitialWeight').value = initWt > 0 ? Math.round(initWt) : '';
+        document.getElementById('myAvgDailyGain').value  = avgDailyGain > 0 ? avgDailyGain.toFixed(1) : '';
+        document.getElementById('myDailyGain').value     = avgDailyGain > 0 ? avgDailyGain.toFixed(1) : '';
+        document.getElementById('myCumIntake').value     = cumIntake > 0 ? Math.round(cumIntake) : '';
+        document.getElementById('myDailyIntake').value   = dailyIntake > 0 ? dailyIntake.toFixed(1) : '';
     }
     updateData();
 }
@@ -9122,9 +9125,11 @@ function updateData() {
             fcr: calculatedFcr 
         }[item.key];
         const actual = actualVal || 0;
-        const diff = (actual - std).toFixed(item.dec);
-        const arrow = (actual - std) >= 0 ? ' <span class="up">▲</span>' : ' <span class="down">▼</span>';
-        return `<tr><td>${item.name}</td><td>${std.toFixed(item.dec)}</td><td>${actual > 0 ? actual.toFixed(item.dec) : '-'}</td><td>${actual > 0 ? diff + arrow : '-'}</td></tr>`;
+        const fmtBroiler = (v, dec) => dec === 0 ? Math.round(v).toLocaleString() : v.toFixed(dec);
+        const diff = actual - std;
+        const diffStr = (diff >= 0 ? '+' : '') + fmtBroiler(diff, item.dec);
+        const arrow = diff >= 0 ? ' <span class="up">▲</span>' : ' <span class="down">▼</span>';
+        return `<tr><td>${item.name}</td><td>${fmtBroiler(std, item.dec)}</td><td>${actual > 0 ? fmtBroiler(actual, item.dec) : '-'}</td><td>${actual > 0 ? diffStr + arrow : '-'}</td></tr>`;
     }).join('');
 }
 
