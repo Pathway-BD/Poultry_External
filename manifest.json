@@ -1,0 +1,17 @@
+{
+  "name": "Poultry Application Guide",
+  "short_name": "Poultry Guide",
+  "description": "Pathway BD Poultry Application Guide",
+  "start_url": "/Poultry_External/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e3a7a",
+  "icons": [
+    {
+      "src": "pwa-icon-v2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
