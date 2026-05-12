@@ -948,20 +948,14 @@
         font-size: 12.5px; color: #4a5a7a; line-height: 1.5;
         margin-bottom: 14px;
     }
-    .hsc-actions { display: flex; gap: 8px; }
+    .hsc-actions { display: flex; justify-content: center; }
     .hsc-add-btn {
-        flex: 1; padding: 13px 10px; border-radius: 11px; border: none;
+        width: 100%; padding: 14px 10px; border-radius: 11px; border: none;
         background: #1e3a7a; color: #fff;
-        font-size: 14px; font-weight: 800; cursor: pointer;
+        font-size: 15px; font-weight: 800; cursor: pointer;
         -webkit-tap-highlight-color: transparent;
     }
     .hsc-add-btn:active { opacity: 0.85; }
-    .hsc-later-btn {
-        padding: 13px 14px; border-radius: 11px;
-        border: 1.5px solid #b8c8e0; background: transparent;
-        color: #7a8fb0; font-size: 13px; font-weight: 600; cursor: pointer;
-        -webkit-tap-highlight-color: transparent; white-space: nowrap;
-    }
 }
 
 </style>
@@ -1107,7 +1101,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="hsc-desc">Open FARM-Check instantly during farm visits — no need to search browser tabs or links.</div>
             <div class="hsc-actions">
                 <button class="hsc-add-btn" onclick="handleInstallAdd()">+ Add to Home Screen</button>
-                <button class="hsc-later-btn" onclick="handleInstallDismiss()">Not now</button>
             </div>
         </div>
     </div>
@@ -1321,7 +1314,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="hsc-desc">Open FARM-Check instantly during farm visits — no need to search browser tabs or links.</div>
             <div class="hsc-actions">
                 <button class="hsc-add-btn" onclick="handleInstallAdd()">+ Add to Home Screen</button>
-                <button class="hsc-later-btn" onclick="handleInstallDismiss()">Not now</button>
             </div>
         </div>
 
@@ -10265,69 +10257,42 @@ window.onload=function(){
 };
 
 /* ── Add to Home Screen inline card logic ── */
-(function () {
-    var INSTALL_KEY = 'farmcheck.installDismissed';
-    var deferredPrompt = null;
-    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
+var _installPrompt = null;
+var _IKEY = 'farmcheck.installDismissed';
 
-    function isInstalled() {
-        return window.matchMedia('(display-mode: standalone)').matches ||
-               window.navigator.standalone === true;
-    }
-    function isMobile() {
-        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    }
+window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    _installPrompt = e;
+});
 
-    // Capture Android native install prompt
-    window.addEventListener('beforeinstallprompt', function (e) {
-        e.preventDefault();
-        deferredPrompt = e;
+function updateInstallCards() {
+    var standalone = window.matchMedia('(display-mode: standalone)').matches ||
+                     window.navigator.standalone === true;
+    var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    var hide = standalone || !mobile;
+    document.querySelectorAll('.home-screen-card').forEach(function (c) {
+        if (hide) c.classList.add('dismissed');
+        else c.classList.remove('dismissed');
     });
+}
 
-    // Update visibility of all home-screen-cards after analysis
-    window.updateInstallCards = function () {
-        var hide = isInstalled() || !!localStorage.getItem(INSTALL_KEY) || !isMobile();
-        document.querySelectorAll('.home-screen-card').forEach(function (c) {
-            if (hide) c.classList.add('dismissed');
-            else c.classList.remove('dismissed');
-        });
-    };
-
-    // "Add to Home Screen" button handler
-    window.handleInstallAdd = function () {
-        if (deferredPrompt) {
-            // Android: trigger native dialog
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function (choice) {
-                if (choice.outcome === 'accepted') {
-                    try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
-                    document.querySelectorAll('.home-screen-card').forEach(function (c) {
-                        c.classList.add('dismissed');
-                    });
-                }
-                deferredPrompt = null;
-            }).catch(function () {});
-        } else {
-            // iOS (and any other): open instruction sheet
-            var sheet = document.getElementById('iosInstallSheet');
-            if (sheet) sheet.classList.add('open');
-        }
-    };
-
-    // "Not now" dismiss handler
-    window.handleInstallDismiss = function () {
-        try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
-        document.querySelectorAll('.home-screen-card').forEach(function (c) {
-            c.classList.add('dismissed');
-        });
-    };
-
-    // iOS sheet close
-    window.closeIosSheet = function () {
+function handleInstallAdd() {
+    if (_installPrompt) {
+        _installPrompt.prompt();
+        _installPrompt.userChoice.then(function (r) {
+            _installPrompt = null;
+            if (r.outcome === 'accepted') updateInstallCards();
+        }).catch(function () {});
+    } else {
         var sheet = document.getElementById('iosInstallSheet');
-        if (sheet) sheet.classList.remove('open');
-    };
-})();
+        if (sheet) sheet.classList.add('open');
+    }
+}
+
+function closeIosSheet() {
+    var sheet = document.getElementById('iosInstallSheet');
+    if (sheet) sheet.classList.remove('open');
+}
 
 </script>
 
