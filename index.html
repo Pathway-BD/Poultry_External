@@ -876,57 +876,61 @@
         }
 
 
-/* ── Add to Home Screen inline card (mobile only, JS-controlled) ── */
+/* ── Share card (mobile only, JS-controlled visibility) ── */
 .home-screen-card {
-    display: none;          /* hidden on desktop and pre-analysis */
+    display: none;
 }
 .home-screen-card.dismissed { display: none !important; }
 
-
 @media (max-width: 600px) {
+    /* ── Primary "View Full Farm Analysis" CTA ── */
+    .btn-view-analysis {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; padding: 16px 18px; margin: 10px 0 4px;
+        background: linear-gradient(135deg, #1e3a7a 0%, #2356b0 100%);
+        color: #fff; border: none; border-radius: 13px;
+        font-size: 15px; font-weight: 800;
+        box-shadow: 0 4px 14px rgba(30,58,122,0.20);
+        cursor: pointer; -webkit-tap-highlight-color: transparent;
+        text-align: left;
+    }
+    .btn-view-analysis:active { opacity: 0.9; }
+    .btn-view-analysis .va-arrow {
+        font-size: 12px; opacity: 0.75;
+        transition: transform 0.22s ease; flex-shrink: 0;
+    }
+    .btn-view-analysis.open .va-arrow { transform: rotate(180deg); }
+
+    /* ── Compact secondary share card ── */
     .home-screen-card {
         display: block;
-        margin: 14px 0 6px;
-        padding: 18px 16px 16px;
-        background: linear-gradient(135deg, #e8f5ee 0%, #dff0e8 100%);
-        border: 1.5px solid #a8d5b8;
-        border-radius: 14px;
+        margin: 16px 0 4px;
+        padding: 13px 14px;
+        background: #f8fafc;
+        border: 1px solid #dde6f0;
+        border-radius: 12px;
     }
-    .hsc-top {
-        display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    .home-screen-card .sc-label {
+        font-size: 10px; color: #96a8c0; text-transform: uppercase;
+        letter-spacing: 0.6px; font-weight: 700; margin-bottom: 9px;
     }
-    .hsc-icon { font-size: 2em; line-height: 1; flex-shrink: 0; }
-    .hsc-title { font-size: 15px; font-weight: 800; color: #1b4d2e; line-height: 1.25; }
-    .hsc-desc {
-        font-size: 12.5px; color: #2e5c3a; line-height: 1.5;
-        margin-bottom: 14px;
+    .sc-btn-wa {
+        width: 100%; padding: 11px 10px; margin-bottom: 7px;
+        background: #e8f8ee; color: #1a6b38;
+        border: 1.5px solid #9fd4b4; border-radius: 10px;
+        font-size: 13.5px; font-weight: 700;
+        cursor: pointer; -webkit-tap-highlight-color: transparent;
     }
-    /* Dual-action layout */
-    .hsc-actions-dual { display: flex; flex-direction: column; gap: 8px; }
-    .hsc-btn-results {
-        width: 100%; padding: 14px 10px; border-radius: 11px; border: none;
-        background: #25d366; color: #fff;
-        font-size: 15px; font-weight: 800; cursor: pointer;
+    .sc-btn-wa:active { background: #d4f0e0; }
+    .sc-link-tool {
+        display: block; width: 100%; padding: 5px; text-align: center;
+        background: none; border: none;
+        font-size: 12px; color: #5a7ab0;
+        cursor: pointer; text-decoration: none;
         -webkit-tap-highlight-color: transparent;
     }
-    .hsc-btn-results:active { opacity: 0.88; }
-    .hsc-btn-tool {
-        width: 100%; padding: 11px 10px; border-radius: 11px;
-        background: none; color: #1e3a7a;
-        border: 1.5px solid #1e3a7a;
-        font-size: 13px; font-weight: 700; cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-    }
-    .hsc-btn-tool:active { background: #edf3ff; }
-    /* Legacy single-button fallback */
-    .hsc-actions { display: flex; justify-content: center; }
-    .hsc-add-btn {
-        width: 100%; padding: 14px 10px; border-radius: 11px; border: none;
-        background: #1e3a7a; color: #fff;
-        font-size: 15px; font-weight: 800; cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-    }
-    .hsc-add-btn:active { opacity: 0.85; }
+    .sc-link-tool:active { text-decoration: underline; }
+
     /* Early share chip inside mobile-guide */
     .guide-share-chip {
         display: flex; align-items: center; justify-content: space-between;
@@ -1063,24 +1067,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="kpi-diff" id="kpiIntakeDiff">Auto-calculated from BW × FCR</div>
             </div>
         </div>
-        <!-- Mobile-only: auto summary -->
+        <!-- Mobile-only: auto summary / key insight -->
         <div class="mobile-summary empty" id="broilerSummary"></div>
-        <!-- Mobile-only: Share Results card (post-analysis) -->
-        <div class="home-screen-card" id="broilerInstallCard">
-            <div class="hsc-top">
-                <span class="hsc-icon">📊</span>
-                <div class="hsc-title">Share Results with Your Team</div>
-            </div>
-            <div class="hsc-desc">Send this farm analysis to your WhatsApp group — your team sees the performance data instantly.</div>
-            <div class="hsc-actions-dual">
-                <button class="hsc-btn-results" onclick="shareWhatsApp('broiler')">📤 Share Results on WhatsApp</button>
-                <button class="hsc-btn-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
-            </div>
-        </div>
-        <!-- Mobile-only: action buttons -->
+        <!-- Mobile-only: Primary CTA — View Full Analysis (directly below summary) -->
         <div class="mobile-actions">
-            <button class="btn-details" style="width:100%;" onclick="toggleDetails('broilerDetails', this)">▼ View Details</button>
+            <button class="btn-view-analysis" onclick="toggleDetails('broilerDetails', this)">
+                <span class="va-text">📋 View Full Farm Analysis</span>
+                <span class="va-arrow">▼</span>
+            </button>
         </div>
+        <!-- Detailed analysis section -->
         <div class="main-content details-block collapsed" id="broilerDetails">
             <div class="table-area">
                 <table id="resultTable">
@@ -1089,6 +1085,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </table>
             </div>
             <div id="chartContainer"><canvas id="performanceChart"></canvas></div>
+        </div>
+        <!-- Secondary: compact share card (after analysis details) -->
+        <div class="home-screen-card" id="broilerInstallCard">
+            <div class="sc-label">Share with your team</div>
+            <button class="sc-btn-wa" onclick="shareWhatsApp('broiler')">📤 Share Results on WhatsApp</button>
+            <button class="sc-link-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
         </div>
     </div>
 
@@ -1260,23 +1262,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="kpi-diff" id="kpiLayFIDiff">Enter g/day</div>
             </div>
         </div>
-        <!-- Mobile-only: auto summary (Layer) -->
+        <!-- Mobile-only: auto summary / key insight (Layer) -->
         <div class="mobile-summary empty" id="layerSummary"></div>
-        <!-- Mobile-only: Share Results card (post-analysis) -->
-        <div class="home-screen-card" id="layerInstallCard">
-            <div class="hsc-top">
-                <span class="hsc-icon">📊</span>
-                <div class="hsc-title">Share Results with Your Team</div>
-            </div>
-            <div class="hsc-desc">Send this farm analysis to your WhatsApp group — your team sees the performance data instantly.</div>
-            <div class="hsc-actions-dual">
-                <button class="hsc-btn-results" onclick="shareWhatsApp('layer')">📤 Share Results on WhatsApp</button>
-                <button class="hsc-btn-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
-            </div>
-        </div>
-        <!-- Mobile-only: action buttons (Layer) -->
+        <!-- Mobile-only: Primary CTA — View Full Analysis -->
         <div class="mobile-actions">
-            <button class="btn-details" style="width:100%;" onclick="toggleDetails('layerDetails', this)">▼ View Details</button>
+            <button class="btn-view-analysis" onclick="toggleDetails('layerDetails', this)">
+                <span class="va-text">📋 View Full Farm Analysis</span>
+                <span class="va-arrow">▼</span>
+            </button>
         </div>
 
         <div class="main-content details-block collapsed" id="layerDetails">
@@ -1307,11 +1300,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             </div>
         </div>
+        <!-- Secondary: compact share card (after analysis details, Layer) -->
+        <div class="home-screen-card" id="layerInstallCard">
+            <div class="sc-label">Share with your team</div>
+            <button class="sc-btn-wa" onclick="shareWhatsApp('layer')">📤 Share Results on WhatsApp</button>
+            <button class="sc-link-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
+        </div>
 
     </div>
 
 
-    
+
 
 
     
@@ -9886,7 +9885,15 @@ function toggleDetails(blockId, btn) {
     const block = document.getElementById(blockId);
     if (!block) return;
     const collapsed = block.classList.toggle('collapsed');
-    if (btn) btn.textContent = collapsed ? '▼ View Details' : '▲ Hide Details';
+    if (btn) {
+        if (btn.classList.contains('btn-view-analysis')) {
+            btn.classList.toggle('open', !collapsed);
+            const textEl = btn.querySelector('.va-text');
+            if (textEl) textEl.textContent = collapsed ? '📋 View Full Farm Analysis' : '📋 Hide Analysis';
+        } else {
+            btn.textContent = collapsed ? '▼ View Details' : '▲ Hide Details';
+        }
+    }
     if (!collapsed) {
         setTimeout(() => {
             try {
