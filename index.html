@@ -927,7 +927,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="display:flex; align-items:flex-start; justify-content:flex-end; flex:0 0 auto;">
             <img src="logo-header.png" alt="Pathway Intermediates" style="height:66px; width:auto; max-width:260px; object-fit:contain; image-rendering:auto;">
         </div>
-        <span style="position:absolute; left:8px; bottom:5px; font-size:0.7em; color:#9aa8bf; font-family:monospace; letter-spacing:0.5px;">v. 260512</span>
+        <span style="position:absolute; left:8px; bottom:5px; font-size:0.7em; color:#9aa8bf; font-family:monospace; letter-spacing:0.5px;">v. 260512b</span>
     </div>
     <div class="tab-bar">
         <div class="tab-btn active" onclick="moveTab(0)"><span class="tab-label-full">Broiler Performance</span><span class="tab-label-short">Broiler</span></div>
@@ -10211,43 +10211,56 @@ window.onload=function(){
 
 /* ── Add to Home Screen inline card logic ── */
 var _installPrompt = null;
-var _isIOS = /iPhone|iPad/i.test(navigator.userAgent);
 
 window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     _installPrompt = e;
+    // Android with native prompt: update button label
+    document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
+        btn.textContent = '+ Add to Home Screen';
+    });
 });
 
 function updateInstallCards() {
     var standalone = window.matchMedia('(display-mode: standalone)').matches ||
                      window.navigator.standalone === true;
     var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    var hide = standalone || !mobile;
-    document.querySelectorAll('.home-screen-card').forEach(function (c) {
-        if (hide) c.classList.add('dismissed');
-        else c.classList.remove('dismissed');
-    });
-    // Update button label: iOS → WhatsApp share, Android → install
-    document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
-        btn.textContent = _isIOS ? '📤 Share via WhatsApp' : '+ Add to Home Screen';
-    });
+    if (standalone || !mobile) {
+        document.querySelectorAll('.home-screen-card').forEach(function (c) {
+            c.classList.add('dismissed');
+        });
+    }
 }
 
 function handleInstallAdd() {
-    if (_isIOS) {
-        // iOS Safari: share the app URL via WhatsApp
-        var url = window.location.href.split('?')[0].split('#')[0];
-        var msg = 'Check out FARM-Check — a broiler performance tool! Open this link on your phone and save it for quick access: ' + url;
-        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
-    } else if (_installPrompt) {
+    if (_installPrompt) {
         // Android Chrome: trigger native install dialog
         _installPrompt.prompt();
         _installPrompt.userChoice.then(function (r) {
             _installPrompt = null;
-            if (r.outcome === 'accepted') updateInstallCards();
+            if (r.outcome === 'accepted') {
+                document.querySelectorAll('.home-screen-card').forEach(function (c) {
+                    c.classList.add('dismissed');
+                });
+            }
         }).catch(function () {});
+    } else {
+        // iOS (and Android without native prompt): share via WhatsApp
+        var url = window.location.href.split('?')[0].split('#')[0];
+        var msg = 'Check out FARM-Check — a broiler performance tool! Open this link on your phone and save it for quick access: ' + url;
+        window.location.href = 'https://wa.me/?text=' + encodeURIComponent(msg);
     }
 }
+
+// Set iOS button label immediately on load (before analysis)
+(function () {
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isIOS) {
+        document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
+            btn.textContent = '📤 Share via WhatsApp';
+        });
+    }
+})();
 
 </script>
 
