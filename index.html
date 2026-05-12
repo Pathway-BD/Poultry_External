@@ -1505,6 +1505,7 @@ const gutSymptoms=[
 function renderGutFlow(){
   const area=document.getElementById('wizardArea');
   const pb=document.getElementById('progressBar');
+  if(!area || !pb) return;
   pb.innerHTML=Array.from({length:4},(_,i)=>`<div class="progress-dot ${i<specialStep+2?'done':i===specialStep+2?'current':''}"></div>`).join('');
 
   if(specialStep===0){
@@ -1562,6 +1563,7 @@ function renderGutFlow(){
 function renderCostFlow(){
   const area=document.getElementById('wizardArea');
   const pb=document.getElementById('progressBar');
+  if(!area || !pb) return;
   pb.innerHTML=Array.from({length:4},(_,i)=>`<div class="progress-dot ${i<specialStep+2?'done':i===specialStep+2?'current':''}"></div>`).join('');
 
   if(specialStep===0){
@@ -1718,6 +1720,7 @@ function lbl(sid,val){
 }
 
 function renderWiz(){
+  if(!document.getElementById('wizardArea')) return;
   if(wizStep===2 && wizAnswers.concern){
     const sf=isSpecialFlow();
     if(sf){specialFlow=sf;specialStep=0;if(sf==='gut') return renderGutFlow();if(sf==='cost') return renderCostFlow();}
