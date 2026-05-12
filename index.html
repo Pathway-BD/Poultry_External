@@ -882,53 +882,6 @@
 }
 .home-screen-card.dismissed { display: none !important; }
 
-/* ── iOS "Add to Home Screen" instruction sheet ── */
-.ios-install-sheet {
-    display: none;
-    position: fixed; inset: 0; z-index: 10000;
-    align-items: flex-end; justify-content: center;
-}
-.ios-install-sheet.open { display: flex; }
-.ios-sheet-backdrop {
-    position: absolute; inset: 0;
-    background: rgba(0,0,0,0.45);
-}
-.ios-sheet-box {
-    position: relative;
-    background: #fff; border-radius: 20px 20px 0 0;
-    padding: 24px 20px 32px; width: 100%; max-width: 520px;
-    box-shadow: 0 -4px 28px rgba(0,0,0,0.14);
-    animation: sheetSlideUp 0.28s ease;
-}
-@keyframes sheetSlideUp {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0);    }
-}
-.ios-sheet-handle {
-    width: 40px; height: 4px; background: #dde4ef;
-    border-radius: 2px; margin: 0 auto 20px;
-}
-.ios-sheet-title {
-    font-size: 17px; font-weight: 800; color: #1e3a7a;
-    text-align: center; margin-bottom: 18px;
-}
-.ios-sheet-step {
-    display: flex; align-items: flex-start; gap: 12px;
-    margin-bottom: 14px; font-size: 14px; color: #2c3e50; line-height: 1.5;
-}
-.ios-step-badge {
-    background: #1e3a7a; color: #fff;
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
-}
-.ios-sheet-close {
-    width: 100%; padding: 15px; margin-top: 10px;
-    border-radius: 13px; border: none;
-    background: #1e3a7a; color: #fff;
-    font-size: 15px; font-weight: 800; cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
 
 @media (max-width: 600px) {
     .home-screen-card {
@@ -10258,7 +10211,7 @@ window.onload=function(){
 
 /* ── Add to Home Screen inline card logic ── */
 var _installPrompt = null;
-var _IKEY = 'farmcheck.installDismissed';
+var _isIOS = /iPhone|iPad/i.test(navigator.userAgent);
 
 window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
@@ -10274,49 +10227,30 @@ function updateInstallCards() {
         if (hide) c.classList.add('dismissed');
         else c.classList.remove('dismissed');
     });
+    // Update button label: iOS → WhatsApp share, Android → install
+    document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
+        btn.textContent = _isIOS ? '📤 Share via WhatsApp' : '+ Add to Home Screen';
+    });
 }
 
 function handleInstallAdd() {
-    if (_installPrompt) {
+    if (_isIOS) {
+        // iOS Safari: share the app URL via WhatsApp
+        var url = window.location.href.split('?')[0].split('#')[0];
+        var msg = 'Check out FARM-Check — a broiler performance tool! Open this link on your phone and save it for quick access: ' + url;
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    } else if (_installPrompt) {
+        // Android Chrome: trigger native install dialog
         _installPrompt.prompt();
         _installPrompt.userChoice.then(function (r) {
             _installPrompt = null;
             if (r.outcome === 'accepted') updateInstallCards();
         }).catch(function () {});
-    } else {
-        var sheet = document.getElementById('iosInstallSheet');
-        if (sheet) sheet.classList.add('open');
     }
-}
-
-function closeIosSheet() {
-    var sheet = document.getElementById('iosInstallSheet');
-    if (sheet) sheet.classList.remove('open');
 }
 
 </script>
 
-<!-- iOS "Add to Home Screen" instruction sheet -->
-<div id="iosInstallSheet" class="ios-install-sheet">
-    <div class="ios-sheet-backdrop" onclick="closeIosSheet()"></div>
-    <div class="ios-sheet-box">
-        <div class="ios-sheet-handle"></div>
-        <div class="ios-sheet-title">📱 Add to Home Screen</div>
-        <div class="ios-sheet-step">
-            <span class="ios-step-badge">1</span>
-            <span>Tap the <strong>Share</strong> button <strong>⎙</strong> at the bottom of your browser</span>
-        </div>
-        <div class="ios-sheet-step">
-            <span class="ios-step-badge">2</span>
-            <span>Scroll down and tap <strong>"Add to Home Screen"</strong></span>
-        </div>
-        <div class="ios-sheet-step">
-            <span class="ios-step-badge">3</span>
-            <span>Tap <strong>"Add"</strong> — FARM-Check will appear on your home screen</span>
-        </div>
-        <button class="ios-sheet-close" onclick="closeIosSheet()">Got it</button>
-    </div>
-</div>
 
 </body>
 </html>
