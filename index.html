@@ -888,19 +888,37 @@
         display: block;
         margin: 14px 0 6px;
         padding: 18px 16px 16px;
-        background: linear-gradient(135deg, #f0f4fb 0%, #e8eef8 100%);
-        border: 1.5px solid #c8d6ed;
+        background: linear-gradient(135deg, #e8f5ee 0%, #dff0e8 100%);
+        border: 1.5px solid #a8d5b8;
         border-radius: 14px;
     }
     .hsc-top {
         display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
     }
     .hsc-icon { font-size: 2em; line-height: 1; flex-shrink: 0; }
-    .hsc-title { font-size: 15px; font-weight: 800; color: #1e3a7a; line-height: 1.25; }
+    .hsc-title { font-size: 15px; font-weight: 800; color: #1b4d2e; line-height: 1.25; }
     .hsc-desc {
-        font-size: 12.5px; color: #4a5a7a; line-height: 1.5;
+        font-size: 12.5px; color: #2e5c3a; line-height: 1.5;
         margin-bottom: 14px;
     }
+    /* Dual-action layout */
+    .hsc-actions-dual { display: flex; flex-direction: column; gap: 8px; }
+    .hsc-btn-results {
+        width: 100%; padding: 14px 10px; border-radius: 11px; border: none;
+        background: #25d366; color: #fff;
+        font-size: 15px; font-weight: 800; cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .hsc-btn-results:active { opacity: 0.88; }
+    .hsc-btn-tool {
+        width: 100%; padding: 11px 10px; border-radius: 11px;
+        background: none; color: #1e3a7a;
+        border: 1.5px solid #1e3a7a;
+        font-size: 13px; font-weight: 700; cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .hsc-btn-tool:active { background: #edf3ff; }
+    /* Legacy single-button fallback */
     .hsc-actions { display: flex; justify-content: center; }
     .hsc-add-btn {
         width: 100%; padding: 14px 10px; border-radius: 11px; border: none;
@@ -909,6 +927,18 @@
         -webkit-tap-highlight-color: transparent;
     }
     .hsc-add-btn:active { opacity: 0.85; }
+    /* Early share chip inside mobile-guide */
+    .guide-share-chip {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-top: 10px; padding-top: 9px; border-top: 1px dashed #c8d5ed;
+    }
+    .guide-share-chip .gsc-text { font-size: 11.5px; color: #5a6b85; }
+    .guide-share-chip .gsc-btn {
+        background: none; border: 1.5px solid #2d6cdf; color: #2d6cdf;
+        padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;
+        cursor: pointer; -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
+    .guide-share-chip .gsc-btn:active { background: #edf3ff; }
 }
 
 </style>
@@ -950,6 +980,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="guide-step"><span class="step-num">1</span> Select Breed &amp; Age</div>
                 <div class="guide-step"><span class="step-num">2</span> Enter Body Weight (BW)</div>
                 <div class="guide-step"><span class="step-num">3</span> Tap Analyze Performance</div>
+            </div>
+            <div class="guide-share-chip">
+                <span class="gsc-text">👥 Using with a team?</span>
+                <button class="gsc-btn" onclick="handleInstallAdd()">Share Tool →</button>
             </div>
         </div>
         <!-- Mobile-only: Diagnosis Banner (shown after analysis) -->
@@ -1031,10 +1065,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <!-- Mobile-only: auto summary -->
         <div class="mobile-summary empty" id="broilerSummary"></div>
+        <!-- Mobile-only: Share Results card (post-analysis) -->
+        <div class="home-screen-card" id="broilerInstallCard">
+            <div class="hsc-top">
+                <span class="hsc-icon">📊</span>
+                <div class="hsc-title">Share Results with Your Team</div>
+            </div>
+            <div class="hsc-desc">Send this farm analysis to your WhatsApp group — your team sees the performance data instantly.</div>
+            <div class="hsc-actions-dual">
+                <button class="hsc-btn-results" onclick="shareWhatsApp('broiler')">📤 Share Results on WhatsApp</button>
+                <button class="hsc-btn-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
+            </div>
+        </div>
         <!-- Mobile-only: action buttons -->
         <div class="mobile-actions">
-            <button class="btn-wa" onclick="shareWhatsApp('broiler')">📤 WhatsApp Share</button>
-            <button class="btn-details" onclick="toggleDetails('broilerDetails', this)">▼ View Details</button>
+            <button class="btn-details" style="width:100%;" onclick="toggleDetails('broilerDetails', this)">▼ View Details</button>
         </div>
         <div class="main-content details-block collapsed" id="broilerDetails">
             <div class="table-area">
@@ -1044,17 +1089,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </table>
             </div>
             <div id="chartContainer"><canvas id="performanceChart"></canvas></div>
-        </div>
-        <!-- Mobile-only: Add to Home Screen card (post-analysis) -->
-        <div class="home-screen-card" id="broilerInstallCard">
-            <div class="hsc-top">
-                <span class="hsc-icon">📱</span>
-                <div class="hsc-title">Share this tool with your team</div>
-            </div>
-            <div class="hsc-desc">Share this tool with your team — use it together on farm visits.</div>
-            <div class="hsc-actions">
-                <button class="hsc-add-btn" onclick="handleInstallAdd()">Share the Link</button>
-            </div>
         </div>
     </div>
 
@@ -1068,6 +1102,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="guide-step"><span class="step-num">1</span> Select Breed, Phase &amp; Age</div>
                 <div class="guide-step"><span class="step-num">2</span> Enter Egg Production %</div>
                 <div class="guide-step"><span class="step-num">3</span> Tap Analyze Performance</div>
+            </div>
+            <div class="guide-share-chip">
+                <span class="gsc-text">👥 Using with a team?</span>
+                <button class="gsc-btn" onclick="handleInstallAdd()">Share Tool →</button>
             </div>
         </div>
         <!-- Mobile-only: Diagnosis Banner (shown after analysis) -->
@@ -1224,10 +1262,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <!-- Mobile-only: auto summary (Layer) -->
         <div class="mobile-summary empty" id="layerSummary"></div>
+        <!-- Mobile-only: Share Results card (post-analysis) -->
+        <div class="home-screen-card" id="layerInstallCard">
+            <div class="hsc-top">
+                <span class="hsc-icon">📊</span>
+                <div class="hsc-title">Share Results with Your Team</div>
+            </div>
+            <div class="hsc-desc">Send this farm analysis to your WhatsApp group — your team sees the performance data instantly.</div>
+            <div class="hsc-actions-dual">
+                <button class="hsc-btn-results" onclick="shareWhatsApp('layer')">📤 Share Results on WhatsApp</button>
+                <button class="hsc-btn-tool" onclick="handleInstallAdd()">🔗 Share This Tool with Colleagues</button>
+            </div>
+        </div>
         <!-- Mobile-only: action buttons (Layer) -->
         <div class="mobile-actions">
-            <button class="btn-wa" onclick="shareWhatsApp('layer')">📤 WhatsApp Share</button>
-            <button class="btn-details" onclick="toggleDetails('layerDetails', this)">▼ View Details</button>
+            <button class="btn-details" style="width:100%;" onclick="toggleDetails('layerDetails', this)">▼ View Details</button>
         </div>
 
         <div class="main-content details-block collapsed" id="layerDetails">
@@ -1256,17 +1305,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="chart-block-title">🐔 Body Weight & Livability</div>
                     <div class="chart-block-body"><canvas id="layerChartBwLive"></canvas></div>
                 </div>
-            </div>
-        </div>
-        <!-- Mobile-only: Add to Home Screen card (post-analysis) -->
-        <div class="home-screen-card" id="layerInstallCard">
-            <div class="hsc-top">
-                <span class="hsc-icon">📱</span>
-                <div class="hsc-title">Share this tool with your team</div>
-            </div>
-            <div class="hsc-desc">Share this tool with your team — use it together on farm visits.</div>
-            <div class="hsc-actions">
-                <button class="hsc-add-btn" onclick="handleInstallAdd()">Share the Link</button>
             </div>
         </div>
 
@@ -10218,9 +10256,9 @@ var _installPrompt = null;
 window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     _installPrompt = e;
-    // Android with native prompt: update button label
-    document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
-        btn.textContent = 'Share the Link';
+    // Android with native PWA prompt: show install option in tool button
+    document.querySelectorAll('.hsc-btn-tool').forEach(function (btn) {
+        btn.textContent = '📲 Add to Home Screen';
     });
 });
 
@@ -10255,15 +10293,8 @@ function handleInstallAdd() {
     }
 }
 
-// Set iOS button label immediately on load (before analysis)
-(function () {
-    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isIOS) {
-        document.querySelectorAll('.hsc-add-btn').forEach(function (btn) {
-            btn.textContent = '📤 Share via WhatsApp';
-        });
-    }
-})();
+// iOS: guide chip button stays as-is (Share Tool →); no override needed
+// The hsc-btn-tool secondary button is always "Share This Tool with Colleagues"
 
 </script>
 
