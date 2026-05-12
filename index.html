@@ -46,7 +46,7 @@
         .tab-label-short { display: none; }
         .tab-label-full { display: inline; }
         /* desktop: hide mobile-only blocks */
-        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle, .future-outlook, .title-mobile, .mobile-guide, .analyze-btn, .interp-card { display: none; }
+        .mobile-bwg-wrap, .mobile-kpi-cards, .mobile-actions, .mobile-summary, .diagnosis-banner, .mobile-more-toggle, .future-outlook, .title-mobile, .mobile-guide, .analyze-btn, .interp-card, .home-screen-card { display: none; }
         .title-desktop { display: inline; }
 
         /* ── Mobile (iPhone / narrow phones ≤ 600px) ── */
@@ -396,7 +396,8 @@
             .pre-analysis .mobile-summary,
             .pre-analysis .mobile-actions,
             .pre-analysis .future-outlook,
-            .pre-analysis .interp-card { display: none !important; }
+            .pre-analysis .interp-card,
+            .pre-analysis .home-screen-card { display: none !important; }
 
             /* Pre-analysis: show guide and CTA */
             .pre-analysis .mobile-guide { display: block; }
@@ -875,40 +876,92 @@
         }
 
 
-/* ── PWA Install Banner (mobile only, JS-controlled) ── */
-.install-banner {
+/* ── Add to Home Screen inline card (mobile only, JS-controlled) ── */
+.home-screen-card {
+    display: none;          /* hidden on desktop and pre-analysis */
+}
+.home-screen-card.dismissed { display: none !important; }
+
+/* ── iOS "Add to Home Screen" instruction sheet ── */
+.ios-install-sheet {
     display: none;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    padding: 12px 14px 18px;
-    background: #1e3a7a;
-    color: #fff;
-    align-items: center;
-    gap: 11px;
-    z-index: 9999;
-    box-shadow: 0 -3px 18px rgba(0,0,0,0.22);
+    position: fixed; inset: 0; z-index: 10000;
+    align-items: flex-end; justify-content: center;
 }
-.install-banner.visible { display: flex; animation: installSlideUp 0.3s ease; }
-@keyframes installSlideUp {
-    from { transform: translateY(100%); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
+.ios-install-sheet.open { display: flex; }
+.ios-sheet-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.45);
 }
-.install-icon { font-size: 1.9em; flex-shrink: 0; line-height: 1; }
-.install-text { flex: 1; min-width: 0; }
-.install-title { font-size: 14px; font-weight: 800; line-height: 1.2; }
-.install-sub   { font-size: 11.5px; font-weight: 500; opacity: 0.82; margin-top: 2px; line-height: 1.4; }
-.install-cta {
-    padding: 9px 15px; border-radius: 9px; border: none;
-    background: #fff; color: #1e3a7a; font-size: 13px; font-weight: 800;
-    cursor: pointer; flex-shrink: 0; white-space: nowrap;
-    -webkit-tap-highlight-color: transparent;
+.ios-sheet-box {
+    position: relative;
+    background: #fff; border-radius: 20px 20px 0 0;
+    padding: 24px 20px 32px; width: 100%; max-width: 520px;
+    box-shadow: 0 -4px 28px rgba(0,0,0,0.14);
+    animation: sheetSlideUp 0.28s ease;
 }
-.install-dismiss {
-    border: none; background: rgba(255,255,255,0.18); color: #fff;
-    font-size: 15px; font-weight: 700; cursor: pointer;
-    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+@keyframes sheetSlideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0);    }
+}
+.ios-sheet-handle {
+    width: 40px; height: 4px; background: #dde4ef;
+    border-radius: 2px; margin: 0 auto 20px;
+}
+.ios-sheet-title {
+    font-size: 17px; font-weight: 800; color: #1e3a7a;
+    text-align: center; margin-bottom: 18px;
+}
+.ios-sheet-step {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px; font-size: 14px; color: #2c3e50; line-height: 1.5;
+}
+.ios-step-badge {
+    background: #1e3a7a; color: #fff;
+    width: 26px; height: 26px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+.ios-sheet-close {
+    width: 100%; padding: 15px; margin-top: 10px;
+    border-radius: 13px; border: none;
+    background: #1e3a7a; color: #fff;
+    font-size: 15px; font-weight: 800; cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 600px) {
+    .home-screen-card {
+        display: block;
+        margin: 14px 0 6px;
+        padding: 18px 16px 16px;
+        background: linear-gradient(135deg, #f0f4fb 0%, #e8eef8 100%);
+        border: 1.5px solid #c8d6ed;
+        border-radius: 14px;
+    }
+    .hsc-top {
+        display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .hsc-icon { font-size: 2em; line-height: 1; flex-shrink: 0; }
+    .hsc-title { font-size: 15px; font-weight: 800; color: #1e3a7a; line-height: 1.25; }
+    .hsc-desc {
+        font-size: 12.5px; color: #4a5a7a; line-height: 1.5;
+        margin-bottom: 14px;
+    }
+    .hsc-actions { display: flex; gap: 8px; }
+    .hsc-add-btn {
+        flex: 1; padding: 13px 10px; border-radius: 11px; border: none;
+        background: #1e3a7a; color: #fff;
+        font-size: 14px; font-weight: 800; cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .hsc-add-btn:active { opacity: 0.85; }
+    .hsc-later-btn {
+        padding: 13px 14px; border-radius: 11px;
+        border: 1.5px solid #b8c8e0; background: transparent;
+        color: #7a8fb0; font-size: 13px; font-weight: 600; cursor: pointer;
+        -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
 }
 
 </style>
@@ -1044,6 +1097,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </table>
             </div>
             <div id="chartContainer"><canvas id="performanceChart"></canvas></div>
+        </div>
+        <!-- Mobile-only: Add to Home Screen card (post-analysis) -->
+        <div class="home-screen-card" id="broilerInstallCard">
+            <div class="hsc-top">
+                <span class="hsc-icon">📱</span>
+                <div class="hsc-title">Add FARM-Check to Your Home Screen</div>
+            </div>
+            <div class="hsc-desc">Open FARM-Check instantly during farm visits — no need to search browser tabs or links.</div>
+            <div class="hsc-actions">
+                <button class="hsc-add-btn" onclick="handleInstallAdd()">+ Add to Home Screen</button>
+                <button class="hsc-later-btn" onclick="handleInstallDismiss()">Not now</button>
+            </div>
         </div>
     </div>
 
@@ -1245,6 +1310,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="chart-block-title">🐔 Body Weight & Livability</div>
                     <div class="chart-block-body"><canvas id="layerChartBwLive"></canvas></div>
                 </div>
+            </div>
+        </div>
+        <!-- Mobile-only: Add to Home Screen card (post-analysis) -->
+        <div class="home-screen-card" id="layerInstallCard">
+            <div class="hsc-top">
+                <span class="hsc-icon">📱</span>
+                <div class="hsc-title">Add FARM-Check to Your Home Screen</div>
+            </div>
+            <div class="hsc-desc">Open FARM-Check instantly during farm visits — no need to search browser tabs or links.</div>
+            <div class="hsc-actions">
+                <button class="hsc-add-btn" onclick="handleInstallAdd()">+ Add to Home Screen</button>
+                <button class="hsc-later-btn" onclick="handleInstallDismiss()">Not now</button>
             </div>
         </div>
 
@@ -9539,12 +9616,14 @@ function toggleLayerMore(btn) {
 function runBroilerAnalysis() {
     broilerMobileCalc();
     document.getElementById('tab0').classList.remove('pre-analysis');
+    if (typeof updateInstallCards === 'function') updateInstallCards();
 }
 
 // Tap "Analyze Performance" for layer — reveals results
 function runLayerAnalysis() {
     layerUpdateData();
     document.getElementById('tab1').classList.remove('pre-analysis');
+    if (typeof updateInstallCards === 'function') updateInstallCards();
 }
 
 // Set interpretation card (shown after analysis, above KPI cards)
@@ -10185,90 +10264,93 @@ window.onload=function(){
   ['ffs_kg','ffs_ame','syo_l','syo_ame','lip_ame','diet_basis','sa_lip','sb_lip','sc_lip','sc_syo_set'].forEach(setupCommaInput);
 };
 
-/* ── PWA Install Banner Logic ── */
+/* ── Add to Home Screen inline card logic ── */
 (function () {
-    const INSTALL_KEY = 'farmcheck.installDismissed';
-    let deferredPrompt = null;
-    let bannerShown = false;
+    var INSTALL_KEY = 'farmcheck.installDismissed';
+    var deferredPrompt = null;
+    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
 
-    function isMobileDevice() {
-        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-    }
-    function isStandalone() {
+    function isInstalled() {
         return window.matchMedia('(display-mode: standalone)').matches ||
                window.navigator.standalone === true;
     }
-    function shouldShow() {
-        return !localStorage.getItem(INSTALL_KEY) && !isStandalone() && isMobileDevice();
+    function isMobile() {
+        return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
     }
 
-    function showBanner(iosMode) {
-        if (bannerShown || !shouldShow()) return;
-        bannerShown = true;
-        var banner = document.getElementById('installBanner');
-        if (!banner) return;
-        if (iosMode) {
-            var sub = document.getElementById('installSub');
-            if (sub) sub.textContent = 'Tap Share (⎙) → Add to Home Screen';
-            var btn = document.getElementById('installBtn');
-            if (btn) btn.style.display = 'none';
-        }
-        banner.classList.add('visible');
-    }
-
-    function hideBanner() {
-        try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
-        var banner = document.getElementById('installBanner');
-        if (banner) banner.classList.remove('visible');
-    }
-
-    // Android Chrome: capture native install prompt
+    // Capture Android native install prompt
     window.addEventListener('beforeinstallprompt', function (e) {
         e.preventDefault();
         deferredPrompt = e;
-        showBanner(false);
     });
 
-    // iOS Safari: show manual tip after 6 seconds (no native prompt available)
-    var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS && !isStandalone()) {
-        setTimeout(function () { showBanner(true); }, 6000);
-    }
-
-    // Install button: trigger native prompt (Android) or no-op (iOS)
-    var installBtn = document.getElementById('installBtn');
-    if (installBtn) {
-        installBtn.addEventListener('click', function () {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.catch(function(){}).finally(function(){
-                    deferredPrompt = null;
-                    hideBanner();
-                });
-            } else {
-                hideBanner();
-            }
+    // Update visibility of all home-screen-cards after analysis
+    window.updateInstallCards = function () {
+        var hide = isInstalled() || !!localStorage.getItem(INSTALL_KEY) || !isMobile();
+        document.querySelectorAll('.home-screen-card').forEach(function (c) {
+            if (hide) c.classList.add('dismissed');
+            else c.classList.remove('dismissed');
         });
-    }
+    };
 
-    // Dismiss button
-    var dismissBtn = document.getElementById('installDismiss');
-    if (dismissBtn) {
-        dismissBtn.addEventListener('click', hideBanner);
-    }
+    // "Add to Home Screen" button handler
+    window.handleInstallAdd = function () {
+        if (deferredPrompt) {
+            // Android: trigger native dialog
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function (choice) {
+                if (choice.outcome === 'accepted') {
+                    try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
+                    document.querySelectorAll('.home-screen-card').forEach(function (c) {
+                        c.classList.add('dismissed');
+                    });
+                }
+                deferredPrompt = null;
+            }).catch(function () {});
+        } else {
+            // iOS (and any other): open instruction sheet
+            var sheet = document.getElementById('iosInstallSheet');
+            if (sheet) sheet.classList.add('open');
+        }
+    };
+
+    // "Not now" dismiss handler
+    window.handleInstallDismiss = function () {
+        try { localStorage.setItem(INSTALL_KEY, '1'); } catch(e) {}
+        document.querySelectorAll('.home-screen-card').forEach(function (c) {
+            c.classList.add('dismissed');
+        });
+    };
+
+    // iOS sheet close
+    window.closeIosSheet = function () {
+        var sheet = document.getElementById('iosInstallSheet');
+        if (sheet) sheet.classList.remove('open');
+    };
 })();
 
 </script>
 
-<!-- PWA Install Banner -->
-<div id="installBanner" class="install-banner">
-    <span class="install-icon">📲</span>
-    <div class="install-text">
-        <div class="install-title">Add to Home Screen</div>
-        <div class="install-sub" id="installSub">Quick access during farm visits</div>
+<!-- iOS "Add to Home Screen" instruction sheet -->
+<div id="iosInstallSheet" class="ios-install-sheet">
+    <div class="ios-sheet-backdrop" onclick="closeIosSheet()"></div>
+    <div class="ios-sheet-box">
+        <div class="ios-sheet-handle"></div>
+        <div class="ios-sheet-title">📱 Add to Home Screen</div>
+        <div class="ios-sheet-step">
+            <span class="ios-step-badge">1</span>
+            <span>Tap the <strong>Share</strong> button <strong>⎙</strong> at the bottom of your browser</span>
+        </div>
+        <div class="ios-sheet-step">
+            <span class="ios-step-badge">2</span>
+            <span>Scroll down and tap <strong>"Add to Home Screen"</strong></span>
+        </div>
+        <div class="ios-sheet-step">
+            <span class="ios-step-badge">3</span>
+            <span>Tap <strong>"Add"</strong> — FARM-Check will appear on your home screen</span>
+        </div>
+        <button class="ios-sheet-close" onclick="closeIosSheet()">Got it</button>
     </div>
-    <button class="install-cta" id="installBtn">Add</button>
-    <button class="install-dismiss" id="installDismiss" aria-label="Dismiss">✕</button>
 </div>
 
 </body>
