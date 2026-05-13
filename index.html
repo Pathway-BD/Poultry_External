@@ -9924,7 +9924,7 @@ function shareWhatsApp(type) {
         if (myCI > 0) text += `🌾 Cum. Intake: ${Math.round(myCI).toLocaleString()}g\n`;
         const summary = document.getElementById('broilerSummary').textContent;
         if (summary) text += `\n${summary}\n`;
-        text += `\nFARM-Check by Pathway BD`;
+        text += `\nFARM-Check by Pathway intermediates`;
     } else if (type === 'layer') {
         const breedEl = document.getElementById('layerBreed');
         const breed = breedEl.options[breedEl.selectedIndex].text;
@@ -9942,7 +9942,7 @@ function shareWhatsApp(type) {
         if (myFI > 0) text += `🌾 Feed Intake: ${Math.round(myFI)}g/day\n`;
         const summary = document.getElementById('layerSummary').textContent;
         if (summary) text += `\n${summary}\n`;
-        text += `\nFARM-Check by Pathway BD`;
+        text += `\nFARM-Check by Pathway intermediates`;
     }
     const url = 'https://wa.me/?text=' + encodeURIComponent(text);
     window.open(url, '_blank');
