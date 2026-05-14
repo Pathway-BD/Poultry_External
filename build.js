@@ -2,6 +2,7 @@ const { minify } = require('html-minifier-terser');
 const fs = require('fs');
 const path = require('path');
 
+const SRC = 'src';
 const DIST = 'dist';
 
 // Conservative settings: only remove HTML comments and collapse HTML whitespace.
@@ -24,17 +25,18 @@ async function build() {
   fs.mkdirSync(DIST, { recursive: true });
 
   for (const file of ['index.html', 'sharing.html']) {
-    if (!fs.existsSync(file)) continue;
-    const src = fs.readFileSync(file, 'utf8');
+    const srcPath = path.join(SRC, file);
+    if (!fs.existsSync(srcPath)) continue;
+    const src = fs.readFileSync(srcPath, 'utf8');
     const out = await minify(src, OPTIONS);
     fs.writeFileSync(path.join(DIST, file), out);
     const kb = n => (Buffer.byteLength(n, 'utf8') / 1024).toFixed(0) + 'KB';
     console.log(`${file}: ${kb(src)} → ${kb(out)}`);
   }
 
-  for (const f of fs.readdirSync('.')) {
+  for (const f of fs.readdirSync(SRC)) {
     if (f.endsWith('.png') || f === 'manifest.json') {
-      fs.copyFileSync(f, path.join(DIST, f));
+      fs.copyFileSync(path.join(SRC, f), path.join(DIST, f));
     }
   }
 
