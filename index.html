@@ -1506,6 +1506,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       cursor: pointer; flex-shrink: 0;
     }
 
+    /* pack the pop-up's fields two-per-row instead of one long single-column list */
+    #lipidol-saving-widget .sim-prices {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; align-items: end;
+    }
+    #lipidol-saving-widget .sim-prices .field-box:last-child { grid-column: 1 / -1; }
+    #lipidol-saving-widget .sim-matrix {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; align-items: end;
+    }
+    #lipidol-saving-widget .sim-matrix h4 { grid-column: 1 / -1; }
+    #lipidol-saving-widget .svp-pair-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; align-items: end;
+    }
+    #lipidol-saving-widget .rep-meta-grid { grid-template-columns: 1fr 1fr !important; }
+    #lipidol-saving-widget .rep-meta-grid .field-box:last-child { grid-column: 1 / -1; }
+
     /* keep the A4 page readable on a phone */
     #lipidol-report-root.preview-open { padding: 10px 6px 90px; }
     .lp-page { transform: scale(var(--lp-scale, 0.46)); transform-origin: top left; margin: 0; }
@@ -1623,14 +1638,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div style="height: 1px; background: #cbd5e0; margin: 12px 0;"></div>
 
-      <div class="field-box">
-        <label>Currency Unit:</label>
-        <input type="text" id="currencyUnit" value="USD" oninput="updateCurrency(); calcLipidol()">
-      </div>
+      <div class="svp-pair-row">
+        <div class="field-box">
+          <label>Currency Unit:</label>
+          <input type="text" id="currencyUnit" value="USD" oninput="updateCurrency(); calcLipidol()">
+        </div>
 
-      <div class="field-box" style="margin-top: 6px;">
-        <label>Application Level (g/MT):</label>
-        <input type="text" inputmode="decimal" id="lipidolQty" value="500" oninput="formatNum(this); calcLipidol()" style="border: 2px solid #0056b3; font-weight: bold; background-color: #fff;">
+        <div class="field-box">
+          <label>Application Level (g/MT):</label>
+          <input type="text" inputmode="decimal" id="lipidolQty" value="500" oninput="formatNum(this); calcLipidol()" style="border: 2px solid #0056b3; font-weight: bold; background-color: #fff;">
+        </div>
       </div>
 
       <div style="height: 1px; background: #cbd5e0; margin: 12px 0;"></div>
