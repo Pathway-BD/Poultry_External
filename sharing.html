@@ -1348,6 +1348,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   #lipidol-saving-widget .compact-input-group input[type="text"],
   #lipidol-saving-widget .compact-input-group input[type="number"] { padding: 6px 10px; font-size: 0.95em; }
   #lipidol-saving-widget .compact-input-group h3 { margin-bottom: 10px; font-size: 1.1em; padding-bottom: 5px; }
+  #lipidol-saving-widget .sim-var-trigger,
+  #lipidol-saving-widget .svp-close,
+  #lipidol-saving-widget .svp-done { display: none; }
   #lipidol-saving-widget .sim-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
   #lipidol-saving-widget .sim-prices .field-box,
   #lipidol-saving-widget .sim-matrix .field-box { margin-bottom: 8px; }
@@ -1476,6 +1479,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     #lipidol-saving-widget .lipidol-results .res-card h4,
     #lipidol-saving-widget .lipidol-results .res-card .res-val { text-align: center !important; }
     #lipidol-saving-widget .sim-two-col { grid-template-columns: 1fr; }
+
+    /* Simulation Variables collapse into a tap-to-open pop-up on mobile */
+    #lipidol-saving-widget .sim-var-trigger {
+      display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box;
+      background: #eef4ff; border: 2px dashed #0056b3; border-radius: 10px;
+      padding: 14px 16px; margin: 0 0 15px; cursor: pointer; text-align: left; font-family: inherit;
+    }
+    #lipidol-saving-widget .sim-var-trigger .svt-icon { font-size: 1.7em; flex: 0 0 auto; line-height: 1; }
+    #lipidol-saving-widget .sim-var-trigger .svt-text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+    #lipidol-saving-widget .sim-var-trigger .svt-title { font-size: 0.95em; font-weight: 800; color: #12384f; }
+    #lipidol-saving-widget .sim-var-trigger .svt-sub { font-size: 0.82em; color: #0056b3; font-weight: 600; }
+    #lipidol-saving-widget .sim-var-trigger .svt-sub b { text-decoration: underline; }
+    #lipidol-saving-widget .sim-var-trigger .svt-arrow { font-size: 1.6em; color: #0056b3; flex: 0 0 auto; }
+
+    #lipidol-saving-widget #simVarPanel { display: none; }
+    #lipidol-saving-widget #simVarPanel.sim-var-open {
+      display: block; position: fixed; inset: 0; z-index: 100001;
+      background: #f0f4f8; margin: 0; border: none; border-radius: 0;
+      padding: 20px 16px 100px; overflow-y: auto;
+    }
+    #lipidol-saving-widget .svp-close {
+      display: block; position: sticky; top: 0; float: right; margin-bottom: 10px;
+      background: #dbe4ea; color: #12384f; border: none; border-radius: 50%;
+      width: 34px; height: 34px; font-size: 1.1em; line-height: 1; cursor: pointer;
+    }
+    #lipidol-saving-widget .svp-done {
+      display: block; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 100002;
+      background: #004a99; color: #fff; border: none; border-radius: 8px;
+      padding: 14px; font-size: 1em; font-weight: 700; cursor: pointer;
+    }
+
     /* keep the A4 page readable on a phone */
     #lipidol-report-root.preview-open { padding: 10px 6px 90px; }
     .lp-page { transform: scale(var(--lp-scale, 0.46)); transform-origin: top left; margin: 0; }
@@ -1556,7 +1590,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div class="input-group compact-input-group" style="margin-bottom: 0; background:#f0f4f8; border: 1px solid #d9e2ec; height: fit-content; border-radius: 5px;">
+    <button type="button" class="sim-var-trigger" id="simVarTrigger" onclick="openSimVarPopup()">
+      <span class="svt-icon">✏️</span>
+      <span class="svt-text"><span class="svt-title">Simulation Variables</span><span class="svt-sub">Tap to enter · <b>Click</b></span></span>
+      <span class="svt-arrow">›</span>
+    </button>
+
+    <div class="input-group compact-input-group" id="simVarPanel" style="margin-bottom: 0; background:#f0f4f8; border: 1px solid #d9e2ec; height: fit-content; border-radius: 5px;">
+      <button type="button" class="svp-close" id="simVarClose" onclick="closeSimVarPopup()" aria-label="Close">✕</button>
       <h3 style="color:#004a99; border-bottom: 2px solid #cbd5e0; margin-top:0;">Simulation Variables</h3>
 
       <div class="sim-two-col">
@@ -1598,6 +1639,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label>Application Level (g/MT):</label>
         <input type="text" inputmode="decimal" id="lipidolQty" value="500" oninput="formatNum(this); calcLipidol()" style="border: 2px solid #0056b3; font-weight: bold; background-color: #fff;">
       </div>
+
+      <button type="button" class="svp-done" onclick="closeSimVarPopup()">✓ Done</button>
     </div>
 
   </div>
@@ -1949,6 +1992,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function closeLipidolReport() {
     const root = document.getElementById('lipidol-report-root');
     root.classList.remove('preview-open');
+    document.body.style.overflow = '';
+  }
+
+  // mobile-only: Simulation Variables collapses into a tap-to-open pop-up
+  function openSimVarPopup() {
+    const panel = document.getElementById('simVarPanel');
+    if (!panel) return;
+    panel.classList.add('sim-var-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSimVarPopup() {
+    const panel = document.getElementById('simVarPanel');
+    if (!panel) return;
+    panel.classList.remove('sim-var-open');
     document.body.style.overflow = '';
   }
 
