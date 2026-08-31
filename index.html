@@ -1675,32 +1675,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="text" inputmode="decimal" id="repVolume" placeholder="e.g. 120,000" oninput="formatNum(this)">
         </div>
       </div>
-
-      <div style="height: 1px; background: #cbd5e0; margin: 12px 0;"></div>
-
-      <h3 style="color:#004a99; border-bottom: 2px solid #cbd5e0; margin: 0 0 10px;">Report Details <span style="font-weight:400;font-size:0.78em;color:#667;">(optional)</span></h3>
-      <div class="rep-meta-grid">
-        <div class="field-box">
-          <label>Customer / Company:</label>
-          <input type="text" id="repCustomer" placeholder="e.g. ABC Feed Mill" oninput="lpRefreshName()">
-        </div>
-        <div class="field-box">
-          <label>Species / Stage:</label>
-          <input type="text" id="repSpecies" placeholder="e.g. Broiler Grower">
-        </div>
-        <div class="field-box">
-          <label>Feed / Formula name:</label>
-          <input type="text" id="repFeed" placeholder="e.g. Broiler 2 (3,050 Kcal)">
-        </div>
-        <div class="field-box">
-          <label>Prepared by:</label>
-          <input type="text" id="repAuthor" placeholder="Name / Position">
-        </div>
-        <div class="field-box">
-          <label>Annual feed volume (MT) — optional:</label>
-          <input type="text" inputmode="decimal" id="repVolume" placeholder="e.g. 120,000" oninput="formatNum(this)">
-        </div>
-      </div>
     </div>
 
   </div>
@@ -1711,7 +1685,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <button type="button" class="btn-pdf" onclick="downloadLipidolPdf()">⬇ Download PDF</button>
       <button type="button" class="btn-ghost" onclick="openLipidolReport()">Preview</button>
       <button type="button" class="btn-ghost" onclick="printLipidolReport()">Print</button>
-      <span class="rep-hint">PDF is generated in the browser and saved straight to your Downloads as <b id="repFileName"></b>. Fill in Simulation Variables (and optional Report Details) above first.</span>
+      <span class="rep-hint">PDF is generated in the browser and saved straight to your Downloads as <b id="repFileName"></b>.</span>
     </div>
   </div>
 
